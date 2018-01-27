@@ -80,14 +80,15 @@ For components to be able to determine when they can or cannot appear according 
 When a link points to a currently active route, it is good to be able to style it in some way to signal this fact to the user. Both Angular and React routers provide this facility.
 
 In Angular, you can add the `routerLinkActive` directive to a link which takes as a value a list of classes to be applied to the element when the link's route is active.
-Additional configuration is available through the `routerLinkActiveOptions` directive, which takes a configuration object. Setting the '`exact` property of this object to true allows you to specify that the class will only be applied when the link has an exact match with the URL.
+Additional configuration is available through the `routerLinkActiveOptions` directive, which takes a configuration object. Setting the `exact` property of this object to true allows you to specify that the class will only be applied when the link has an exact match with the URL.
 
-The React router provides a component `<Navlink/>' for styling active links.
+The React router provides a component `<Navlink/>` for styling active links.
 
 ```
   <NavLink
     to="/foo"
     activeClassName="selected"
+    exact="true"
   >foo</NavLink>
 
 ```
@@ -97,4 +98,6 @@ The purpose of `activeClassName` is much the same as the `routeLinkActive` direc
 NavLink also has an `exact` attribute which works similar to the corresponding property of the `routerLinkActiveOptions` directive.
 With the `isActive` property you can pass a function that will programmaticaly determine whether or not the link is active.
 You can also pass a `location` attribute which allows you to set  the URL with which to carry out matching that is different from the actual URL.
+
 On the whole, the React router is a little bit more powerful than the Angular router when it comes to styling active links.
+
