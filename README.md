@@ -17,17 +17,21 @@ Angular's documentation on its Router includes a demo app which showcases varoiu
 The code for the app can be found here: [react hero app](link)
 
 Here is a list of the routing features of the Angular and React routers that I am going to discuss:
-* active links
+* Defining routes
+* Active links
+
 * lazy loading
 * guards
 * nested routes
 * parameters
 
 
-#### How routes are defined
+#### Defining routes 
 ##### Angular routes
-Angular apps are made up of modules. Every app has at least one module, but this main module can import other modules.
-The routing for an app is set up within the configuration metadata that is passed to a module when it is defined. (see below).
+Angular apps are made up of modules. Every app has at least one module, but every module can import any number of other modules so that an app can consist of a whole tree of modules.
+
+The routing for an app is set up within the configuration metadata that is passed to a module when it is defined.
+
 As previously stated, these are static routes. Once defined here, they can't be altered at run time.
 
 
@@ -49,7 +53,6 @@ As previously stated, these are static routes. Once defined here, they can't be 
       ),
       BrowserModule
     ],
-    providers: [],
     bootstrap: [AppComponent]
   })
   export class AppModule { }
@@ -64,10 +67,34 @@ In React, routes are defined using the `<Route/>` component.
     component={FooComponent}
   />
 ```
-This is a plain old React Component and can be treated as such.
+This is a plain old React Component and can be treated like any other Component.
 
 Since attributes can be set programmatically, both the path and the component can be dynamically changed at runtime. Hence 'dynamic routes'.
 
 In Angular, paths determine the component, but, in React, paths are determined by the component.
 For components to be able to determine when they can or cannot appear according to the current route  - as opposed to by external configuration - seems more fitting with the philosophy, which both React and Angular embrace, that components are the primary objects that an application is constructed from.
 
+#### Links
+
+#### Active links
+When a link points to a currently active route, it is good to be able to style it in some way to signal this fact to the user. Both Angular and React routers provide this facility.
+
+In Angular, you can add the `routerLinkActive` directive to a link which takes as a value a list of classes to be applied to the element when the link's route is active.
+Additional configuration is available through the `routerLinkActiveOptions` directive, which takes a configuration object. Setting the '`exact` property of this object to true allows you to specify that the class will only be applied when the link has an exact match with the URL.
+
+The React router provides a component `<Navlink/>' for styling active links.
+
+```
+  <NavLink
+    to="/foo"
+    activeClassName="selected"
+  >foo</NavLink>
+
+```
+NavLink is a subclass of `<Link/>` adding extra attributes for configuring the link.
+
+The purpose of `activeClassName` is much the same as the `routeLinkActive` directive in Angular, adding the specified class when the link is active.
+NavLink also has an `exact` attribute which works similar to the corresponding property of the `routerLinkActiveOptions` directive.
+With the `isActive` property you can pass a function that will programmaticaly determine whether or not the link is active.
+You can also pass a `location` attribute which allows you to set  the URL with which to carry out matching that is different from the actual URL.
+On the whole, the React router is a little bit more powerful than the Angular router when it comes to styling active links.
