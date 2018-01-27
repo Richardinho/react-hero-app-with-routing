@@ -25,7 +25,7 @@ Here is a list of the routing features of the Angular and React routers that I a
 
 
 #### How routes are defined
-##### Angular
+##### Angular routes
 Angular apps are made up of modules. Every app has at least one module, but this main module can import other modules.
 The routing for an app is set up within the configuration metadata that is passed to a module when it is defined. (see below).
 As previously stated, these are static routes. Once defined here, they can't be altered at run time.
@@ -55,7 +55,7 @@ As previously stated, these are static routes. Once defined here, they can't be 
   export class AppModule { }
 
 ```
-##### React
+##### React routes
 In React, routes are defined using the `<Route/>` component.
 
 ```
