@@ -19,12 +19,15 @@ The code for the app can be found here: [react hero app](link)
 Here is a list of the routing features of the Angular and React routers that I am going to discuss:
 * Defining routes
 * Active links
-
-* lazy loading
-* guards
-* nested routes
 * parameters
-
+* nested routes
+* named outlets
+* redirecting
+* imperative navigation
+* animating transitions
+* guards
+* lazy loading
+* prefetching
 
 #### Defining routes 
 ##### Angular routes
@@ -101,3 +104,17 @@ You can also pass a `location` attribute which allows you to set  the URL with w
 
 On the whole, the React router is a little bit more powerful than the Angular router when it comes to styling active links.
 
+#### Parameters
+In both Angular and React routers, where a path is defined it is possible to specify path variables which can then be passed on to components.
+In React, these variables are accessible through the `match.params' property.
+In Angular, they are available through the `ActivatedRoute` service. 
+The main difference is that the ActivatedRoute service provides them as an Observable, or a 'stream', meaning that rather than receiving the value directly you need to subscribe to the Observable and have the value(s) pushed to your callback.
+
+```
+ngOnInit() {
+  this.hero$ = this.route.paramMap
+    .switchMap((params: ParamMap) =>
+      this.service.getHero(params.get('id')));
+}
+```
+The value in using streams is that you can do things like the above. When a new param is received (i.e. when the user navigates away from the current location) `switchMap` will cancel the current request to the service and make a new one. This means that you are not having to process stale data when the state of the app changes. Streams can also be used with React but you need to create a stream of the incoming parameter values. In Angular, you get this out of the box. Streams are well integrated into Angular whilst in general React is designed to be used with a Flux architecture such as Redux.
