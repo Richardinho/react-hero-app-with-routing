@@ -105,11 +105,10 @@ You can also pass a `location` attribute which allows you to set  the URL with w
 On the whole, the React router is a little bit more powerful than the Angular router when it comes to styling active links.
 
 #### Parameters
-In both Angular and React routers, where a path is defined it is possible to specify path variables which can then be passed on to components.
-In React, these variables are accessible through the `match.params` property.
-In Angular, they are available through the `ActivatedRoute` service. 
-The main difference is that the ActivatedRoute service provides them as an Observable, or a 'stream', meaning that rather than receiving the value directly you need to subscribe to the Observable and have the value(s) pushed to your callback.
+Angular provides support for 4 types of parameters to be passed in the URL: route parameters, optional route parameters, query parameters, and the hash fragment.
+The support for parameters in the React router is somewhat more rudimentary. Essentially when you create a link you can pass a location object in which is set the pathname, the query string, and the hash fragment. When a Route becomes active, its component is passed this location object. This means that you have to parse out things like query parameters yourself from the query string.
 
+In Angular, parameter data is supplied through the `Activated Route` service. Unlike in React, the data is supplied as an Observable which your code must subscribe to.
 ```
 ngOnInit() {
   this.hero$ = this.route.paramMap
@@ -118,7 +117,7 @@ ngOnInit() {
 }
 ```
 
-The value in using streams is that you can do things like the above. When a new param is received (i.e. when the user navigates away from the current location) `switchMap` will cancel the current request to the service and make a new one. This means that you are not having to process stale data when the state of the app changes. Streams can also be used with React but you need to create a stream of the incoming parameter values. In Angular, you get this out of the box. Streams are well integrated into Angular whilst in general React is designed to be used with a Flux architecture such as Redux.
+The value in using Observables is that you can do things like the above. When a new param is received (i.e. when the user navigates away from the current location) `switchMap` will cancel the current request to the service and make a new one. This means that you are not having to process stale data when the state of the app changes. Streams can also be used with React but you need to create a stream of the incoming parameter values. In Angular, you get this out of the box. Streams are well integrated into Angular whilst in general React is designed to be used with a Flux architecture such as Redux.
 
 ##### Optional route parameters
 Angular also allows you to pass optional route parameters using matrix notation.
@@ -126,24 +125,14 @@ This is a feature missing from the React router.
 
 
 ##### Query parameters
-In Angular, Query params and fragments can be added to a URL using `NavigationExtras` object.
+As well as supporting query parameters and the hash fragment, the Angular router allows these to be added on to other URLs which the application navigates to using the `Navigation Extras` object.
+
 ```
+
   let navigationExtras: NavigationExtras = {
-    queryParams: { 'session_id': sessionId },
-    fragment: 'anchor'
+    queryParamsHandling: 'preserve',
+    preserveFragment: true
   };
 
-  // Navigate to the login page with extras
-  this.router.navigate(['/login'], navigationExtras);
 ```
-more significant are the `queryParamsHandling` and `preserveFragment` properties.
-These allow the query params and fragment on the present url to be added onto to any new url that is navigated to. 
-This 'preserve' feature is not in react router.
-
-```
-let navigationExtras: NavigationExtras = {
-  queryParamsHandling: 'preserve',
-  preserveFragment: true
-};
-
-```
+On the whole, the support for parameters in Angular is much superior to that in the Router. Everything that can be done in Angular can still be done in React, but Angular provides support 'out of the box' without the need for manually writing code or use of third party libraries.
