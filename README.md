@@ -1,7 +1,6 @@
 # Comparison between React and Angular routers
 In this article, I wish to discuss the respective capabilities of Angular and React for client side routing.
 
-
 Both libraries (I will refer to them as libraries) have a rich feature set for routing and though there is considerable overlap between them, there are also areas where one has a feature which the other lacks. As I proceed, I will point out these differences.
 i
 
@@ -56,6 +55,7 @@ As previously stated, these are static routes. Once defined here, they can't be 
   export class AppModule { }
 
 ```
+##### React
 In React, routes are defined using the `<Route/>` component.
 
 ```
