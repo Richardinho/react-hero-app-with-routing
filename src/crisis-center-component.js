@@ -1,9 +1,8 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import CrisisListComponent from './crisis-list-component';
 import { Link, Route } from 'react-router-dom';
+import CrisisListComponent from './crisis-list-component';
 
-class Alpha extends React.Component {
+export default class CrisisCenterComponent extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -17,21 +16,3 @@ class Alpha extends React.Component {
     );
   }
 }
-
-const mapStateToProps = () => {
-  return { foo: 'this is foo' };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getNewPhrase: () => {
-    }
-  };
-};
-
-const CrisisCenterComponent = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Alpha);
-
-export default CrisisCenterComponent;

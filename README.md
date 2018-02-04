@@ -1,138 +1,145 @@
-# Comparison between React and Angular routers
-In this article, I wish to discuss the respective capabilities of Angular and React for client side routing.
+### Angular's routing demonstration app implemented in React
+React and Angular are the foremost MVC frameworks for building Single Page Applications in Javascript.
+Routing, that is to say the rendering of different content in response to changes in the URL without recourse to a full page refresh, is at the heart of such apps.
+Both Angular and React not suprisingly therefore provide sophisticated routing capabilities.
+I decided that it would be a good idea, for the purpose of comparing these capabilities, to create a version of Angular's demonstration app, featured in its routing documentation, but using React.
 
-Both libraries (I will refer to them as libraries) have a rich feature set for routing and though there is considerable overlap between them, there are also areas where one has a feature which the other lacks. As I proceed, I will point out these differences.
-i
+All the code can be seen [here]() so it would be pointless and boring to go through it in minutae. Instead what I want to do is examine some of the features of Angular routing and show how they can be implemented in React using my app as an example.
 
-The Angular router that I am going to talk about is that which is part of the official Angular codebase. The React router that I am going to discuss, however, is not part of React's official codebase but is provided by a completely separate party.
+##### Configuring routes
+Broadly speaking, React and Angulars routing system behave in similar ways.
+That is, it is largely possible to imitate the behaviour of an Angular app using React.
+The way they are implemented is however significantly different.
+Angular employs what is sometimes called 'static routing'. 
+This means that the routes are defined in a configuration file that runs at start up time. 
+React, on the other hand, uses 'dynamic routing'. 
+   
+//  todo: show examples
 
-Broadly speaking, the two routers work fairlly similarly from a user perspective, but from a developer perspective they are conceptually quite distinct. Angular's router uses static routing. This means that routes are defined in a configuration file which is read at start up time and can't be subsequently changed. React, however, uses 'dynamic routing'. Routes are defined as React Components. This means that they can be set programatically at runtime.
+In dynamic routing, there is no config file: Routes are React components with a some special functionality - i.e. 
+the ability to respond to URL state changes. 
+Because they are React components, they can be configured dynamically at runtime. 
+This provides some flexibility not granted by Angular's router, but it also, as we will see, presents some difficulties of its own.
 
-Dynamic routing makes possible some things that are not possible with static routing. For example routes can be respond to changes in the screen viewport size such as when the user switches from a horizontal to a vertical orientation on her device. As we will see, React router lacks some features that Angular's router has. Whether these are absent because the nature of dynamic routing prohibits them or simply because the React router team has not got round to implementing them is an open question.
+Conceptually, dynamic routing would seem preferable to static routing. With it you can define routes in response to the runtime environments and events that occur within it. 
 
+Conceptually, dynamic routing would seem preferable to static routing so that an application is able to respond to changes in its environment.
+For example, dynamic routing can be used in conjunction with media queries to allow components be mounted in response to viewport size changes.
 
-Angular's documentation on its Router includes a demo app which showcases varoius routing features: The so called 'Hero app'.For the purposes of this article, I have created a clone of this app using React and the React router. I will use this along the way to illustrate various points that I wish to make.
+On the other hand, Angular's routing system is more powerful than React's in some significant ways (as we shall see), but whether this is down to some fundamental difference between the two systems or a deficiency in React's implementation is open to question. As React's router evolves over time, we will find out the answer to this question.
+It does seem to me that in static routing, where routing information is centralised, gives the app more control when making routing decisions than in dynamic routing where routing information is encapsulated within components.
 
+##### Guards
+A guard is a function which returns a boolean. As the name suggests, it sits between a route and a component and determines whether or not the component can be activated when the route becomes active.
 
-The code for the app can be found here: [react hero app](link)
+Angular has support for guards offering several different kinds.
 
-Here is a list of the routing features of the Angular and React routers that I am going to discuss:
-* Defining routes
-* Active links
-* parameters
-* nested routes
-* named outlets
-* redirecting
-* imperative navigation
-* animating transitions
-* guards
-* lazy loading
-* prefetching
-
-#### Defining routes 
-##### Angular routes
-Angular apps are made up of modules. Every app has at least one module, but every module can import any number of other modules so that an app can consist of a whole tree of modules.
-
-The routing for an app is set up within the configuration metadata that is passed to a module when it is defined.
-
-As previously stated, these are static routes. Once defined here, they can't be altered at run time.
-
-
-```
-  const appRoutes: Routes = [
-    { path: 'foo', component: FooComponent },
-    { path: 'bar', component: BarComponent }
-  ];
-
-  @NgModule({
-    declarations: [
-      AppComponent,
-      FooComponent,
-      BarComponent
-    ],
-    imports: [
-      RouterModule.forRoot(
-        appRoutes
-      ),
-      BrowserModule
-    ],
-    bootstrap: [AppComponent]
-  })
-  export class AppModule { }
-
-```
-##### React routes
-In React, routes are defined using the `<Route/>` component.
-
-```
-  <Route
-    path="/foo"
-    component={FooComponent}
-  />
-```
-This is a plain old React Component and can be treated like any other Component.
-
-Since attributes can be set programmatically, both the path and the component can be dynamically changed at runtime. Hence 'dynamic routes'.
-
-In Angular, paths determine the component, but, in React, paths are determined by the component.
-For components to be able to determine when they can or cannot appear according to the current route  - as opposed to by external configuration - seems more fitting with the philosophy, which both React and Angular embrace, that components are the primary objects that an application is constructed from.
-
-#### Links
-
-#### Active links
-When a link points to a currently active route, it is good to be able to style it in some way to signal this fact to the user. Both Angular and React routers provide this facility.
-
-In Angular, you can add the `routerLinkActive` directive to a link which takes as a value a list of classes to be applied to the element when the link's route is active.
-Additional configuration is available through the `routerLinkActiveOptions` directive, which takes a configuration object. Setting the `exact` property of this object to true allows you to specify that the class will only be applied when the link has an exact match with the URL.
-
-The React router provides a component `<Navlink/>` for styling active links.
-
-```
-  <NavLink
-    to="/foo"
-    activeClassName="selected"
-    exact="true"
-  >foo</NavLink>
-
-```
-NavLink is a subclass of `<Link/>` adding extra attributes for configuring the link.
-
-The purpose of `activeClassName` is much the same as the `routeLinkActive` directive in Angular, adding the specified class when the link is active.
-NavLink also has an `exact` attribute which works similar to the corresponding property of the `routerLinkActiveOptions` directive.
-With the `isActive` property you can pass a function that will programmaticaly determine whether or not the link is active.
-You can also pass a `location` attribute which allows you to set  the URL with which to carry out matching that is different from the actual URL.
-
-On the whole, the React router is a little bit more powerful than the Angular router when it comes to styling active links.
-
-#### Parameters
-Angular provides support for 4 types of parameters to be passed in the URL: route parameters, optional route parameters, query parameters, and the hash fragment.
-The support for parameters in the React router is somewhat more rudimentary. Essentially when you create a link you can pass a location object in which is set the pathname, the query string, and the hash fragment. When a Route becomes active, its component is passed this location object. This means that you have to parse out things like query parameters yourself from the query string.
-
-In Angular, parameter data is supplied through the `Activated Route` service. Unlike in React, the data is supplied as an Observable which your code must subscribe to.
-```
-ngOnInit() {
-  this.hero$ = this.route.paramMap
-    .switchMap((params: ParamMap) =>
-      this.service.getHero(params.get('id')));
-}
-```
-
-The value in using Observables is that you can do things like the above. When a new param is received (i.e. when the user navigates away from the current location) `switchMap` will cancel the current request to the service and make a new one. This means that you are not having to process stale data when the state of the app changes. Streams can also be used with React but you need to create a stream of the incoming parameter values. In Angular, you get this out of the box. Streams are well integrated into Angular whilst in general React is designed to be used with a Flux architecture such as Redux.
-
-##### Optional route parameters
-Angular also allows you to pass optional route parameters using matrix notation.
-This is a feature missing from the React router.
-
-
-##### Query parameters
-As well as supporting query parameters and the hash fragment, the Angular router allows these to be added on to other URLs which the application navigates to using the `Navigation Extras` object.
+In the Hero app, access to admin pages is governed by a guard.
+The guard checks to see if the user if logged in.
+If so, it will permit the navigation to occur.
+If not, it will redirect to the login page.
+This is the function that carries out these actions.
 
 ```
 
-  let navigationExtras: NavigationExtras = {
-    queryParamsHandling: 'preserve',
-    preserveFragment: true
-  };
+  checklogin(url: string): boolean {
+    if (this.authservice.isloggedin) { return true; }
+
+    // store the attempted url for redirecting
+    this.authservice.redirecturl = url;
+
+    // create a dummy session id
+    let sessionId = 123456789;
+
+    // Set our navigation extras object
+    // that contains our global query params and fragment
+    let navigationExtras: NavigationExtras = {
+      queryParams: { 'session_id': sessionId },
+      fragment: 'anchor'
+    };
+
+    // Navigate to the login page with extras
+    this.router.navigate(['/login'], navigationExtras);
+    return false;
+  }
 
 ```
-On the whole, the support for parameters in Angular is much superior to that in the Router. Everything that can be done in Angular can still be done in React, but Angular provides support 'out of the box' without the need for manually writing code or use of third party libraries.
+Note that it will also save the current URL. 
+This will allow the application to return to the current page we are on after the user has logged in.
+The `navigationExtras` object allows you to see query parameters and hash fragments within the URL. 
+They are less relevant to the present discussion.
+
+React's router does not explicitly give any support for guards, but it is possible to write code that roughly does the same thing.
+This basically comes down to some branching logic which renders the admin components when the user is logged in and a `<Redirect/>` component otherwise.
+
+```
+  if (this.props.adminservice.isloggedin()) {
+    return (
+      <div>
+        <h3>admin</h3>
+        <nav>
+          <link to="/admin/dashboard">dashboard</link>
+          <link to="/admin/manage-crisis">manage crises</link>
+          <link to="/admin/manage-heroes">manage heroes</link>
+        </nav>
+
+        <route  path="/admin/manage-crisis" render={() => {
+          return (<div classname="route">
+            <h2>manage crisis</h2> 
+            </div>) 
+        }}/>
+
+        <route path="/admin/dashboard" render={() => {
+          return (<div>
+            <h2>dashboard</h2> 
+          </div>) 
+        }}/>
+
+        <route path="/admin/manage-heroes" render={() => {
+          return (<div>
+            <h2>manage heroes</h2> 
+          </div>) 
+        }}/>
+      </div>
+    )    
+  } else {
+    return (<redirect to="/login?returnto=/admin"/>);
+  }
+
+```
+The guard used in the Angular app here simply determines whether or not a component should be activated. In Angular, there are more sopshisticated guards, such as guards that also preload data (the resolver) and a guard for determining whether or not to lazy load a module. Once again, in React, you have to implement these things yourself so Angular has a clear advantage over React in respect of guards.
+
+#### Lazy Loading
+todo: investigate lazy loading in React
+
+#### Forms
+
+#### Resolvers
+The idea behind a resolver is that a component should only be activated if there is the correct data for it, otherwise it shouldn't.
+A resolver therefore acts somewhat like a guard.
+A resolver preloads data, or attempts to, before activating the component. 
+If the data fetch is unsuccessful then the component will not be activated, and the application will redirect somewhere else. 
+
+Angular has support for resolvers and they are used in the Hero app.
+//  todo: look into using resolvers in React
+### Named Outlets
+
+### Parameters
+
+### Observables
+
+### Redirects
+
+
+#### Animations
+
+### Styling active links  
+
+### Handling dead links
+
+#### Preloading
+//  todo: research how this is done and work out how to use in React, if this is indeed posssible
+
+
+
+

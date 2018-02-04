@@ -1,33 +1,34 @@
 import React from 'react';
-import { Link, Route } from 'react-router-dom';
+import {Link, Route} from 'react-router-dom';
+import {Connect} from 'react-redux';
+import Rx from 'rxjs/Rx';
 import CrisisDetailComponent from './crisis-detail-component';
 import CrisisCenterHomeComponent from './crisis-center-home-component';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
+import { TransitionGroup, CSSTransition, Transition} from '../react-transition-group/src';
 export class Component extends React.Component {
 
   constructor() {
     super();  
+
     this.state = {
       crises: [] 
     }; 
-    this._isMounted = false;
   }
 
   componentDidMount() {
-    this._isMounted = true;
-
-    this.props.crisisService.getCrisisList().then(crises => {
-      if (this._isMounted) {
+    this.subscription = Rx.Observable
+      .fromPromise(this.props.crisisService.getCrisisList())
+      .subscribe(crises => {
         this.setState({
           crises,
         });
-      }
-    });     
+      }); 
   }
 
   componentWillUnmount () {
-    this._isMounted = false;
+    this.subscription.unsubscribe();
   }
 
   render () {
@@ -35,27 +36,34 @@ export class Component extends React.Component {
 
     const renderLink = (crisis) => {
       return (
-        <li key={crisis.id}>
-          <Link to={`${match.url}/${crisis.id}`}><span className="badge">{crisis.id}</span>{crisis.name}</Link> 
-        </li>
+        <CSSTransition timeout="400" key={crisis.id} classNames="listitem">
+          <li>
+            <Link to={`${match.url}/${crisis.id}`}>
+              <span className="badge">{crisis.id}</span>
+              {crisis.name}
+            </Link> 
+          </li>
+        </CSSTransition>
+
       ); 
     };
 
 
     return (
       <div>
-        <ul className="items">
+        <Route path={match.url} component={CrisisCenterHomeComponent}/>
+        <TransitionGroup component="ul" className="items">
           {
             this.state.crises.map(renderLink) 
           } 
-        </ul>
+         </TransitionGroup>
         <Route path={`${match.url}/:id`}  component={CrisisDetailComponent}/>
-        <Route exact path={match.url} component={CrisisCenterHomeComponent}/>
       </div>
     );
   }
 
 }
+
 const mapStateToProps = ({crisisService}) => {
   return {
     crisisService,

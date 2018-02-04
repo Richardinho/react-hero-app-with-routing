@@ -39,7 +39,7 @@ button:disabled {
 }
 
 /* Navigation link styles */
-nav a {
+nav a, .contact-link {
   padding: 5px 10px;
   text-decoration: none;
   margin-right: 10px;

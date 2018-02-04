@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import Rx from 'rxjs/Rx';
 
@@ -25,7 +25,7 @@ class Component extends React.Component {
   componentDidMount() {
     this.match = new Rx.BehaviorSubject(this.props.match);
 
-    this.match
+    this.subscription = this.match
       .map(match => match.params.id) 
       .switchMap(id => {
         return Rx.Observable.fromPromise(this.props.crisisService.getCrisis(id)); 
@@ -33,6 +33,10 @@ class Component extends React.Component {
       .subscribe(crisis => {
         this.setState(crisis);
       });
+  }
+
+  componentWillUnmount() {
+    this.subscription.unsubscribe();
   }
 
   save() {
@@ -45,7 +49,6 @@ class Component extends React.Component {
   }
 
   navigateToCrisisList() {
-    console.log('navigatToCrisisList'); 
     this.props.history.push('/crisis-center');      
   
   }
@@ -59,15 +62,18 @@ class Component extends React.Component {
   render () {
     const detail = (
       <div>
-        <h3>{this.state.name}</h3>
+        <h3>{ this.state.name }</h3>
         <div>
-          <label>Id: </label>{this.state.id}</div>
+          <label>Id: </label>{ this.state.id }</div>
         <div>
           <label>Name: </label>
-          <input value={this.state.editName} onChange={this.handleNameChange}placeholder="name"/>
+          <input 
+            value={ this.state.editName } 
+            onChange={ this.handleNameChange }
+            placeholder="name"/>
         </div>
         <p>
-          <button onClick={this.save}>Save</button>
+          <button onClick={ this.save }>Save</button>
           <button>Cancel</button>
         </p>
       </div>
@@ -76,10 +82,11 @@ class Component extends React.Component {
     const placeholder = (
       <div>Placeholder</div> 
     );
+
     return (
     
       <div>
-      { parseInt(this.state.id) > 0 ? detail: placeholder }
+        { parseInt(this.state.id) > 0 ? detail: placeholder }
       </div>
     
     );

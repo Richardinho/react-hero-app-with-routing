@@ -5,19 +5,21 @@ const crises = [
   { id: 4, name: 'woman lost her purse' },
   { id: 5, name: 'wrong advert shown on telly' },
 ];
+
 function getCrisisForId(id) {
   const crisis = crises.find(c => {
     return c.id == parseInt(id, 10);
   });
   return crisis;
 }
+
 export default class CrisisService {
 
   getCrisis(id) {
     return new Promise(resolve => {
       setTimeout(() => {
         resolve(getCrisisForId(id)); 
-      }, 400);
+      }, 1400);
     });
   }  
 
@@ -25,7 +27,7 @@ export default class CrisisService {
     return new Promise(resolve => {
       setTimeout(() => {
         resolve(crises); 
-      }, 10); 
+      }, 2400); 
     });
   }
 
