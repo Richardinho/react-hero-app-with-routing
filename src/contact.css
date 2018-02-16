@@ -1,0 +1,36 @@
+.contact-form {
+  position: fixed;
+  left: 10vw;
+  top: 10vh;
+  z-index: 4;
+  padding: 10px;
+  background: white;
+  border: solid 2px grey;
+  width: 250px;
+}
+
+.contact-form textarea {
+  width: 100%;
+}
+
+.contact-enter {
+  transform: translateX(calc(-250px - 10vw));
+  opacity: 0;
+}
+
+.contact-enter.contact-enter-active{
+  transition: all 0.4s ease-in;
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.contact-exit {
+ opacity: 1; 
+}
+
+.contact-exit.contact-exit-active{
+  transition: all  0.4s ease-out;
+  transform: translateX(calc(-250px - 10vw));
+  opacity: 0;
+}
+

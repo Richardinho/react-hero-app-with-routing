@@ -1,19 +1,20 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import Rx from 'rxjs/Rx';
+import { Inject } from 'test1';
 
+@Inject('crisisService')
+export default class CrisisDetailComponent extends React.Component {
 
-class Component extends React.Component {
-
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       id: -1,
       name: '',
       editName: ''
     }
+
     this.handleNameChange = this.handleNameChange.bind(this); 
     this.save = this.save.bind(this);
   }
@@ -92,17 +93,4 @@ class Component extends React.Component {
     );
   
   }
-
 }
-
-const mapStateToProps = ({crisisService}) => {
-  return {
-    crisisService,
-  };
-};
-
-const CrisisDetailComponent = connect(
-  mapStateToProps
-)(Component);
-
-export default CrisisDetailComponent;

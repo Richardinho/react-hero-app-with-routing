@@ -1,32 +1,30 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {AppContainer} from 'react-hot-loader'
-import {createStore, applyMiddleware} from 'redux';
-import {Provider} from 'react-redux';
-import thunkMiddleware from 'redux-thunk';
-import reducer from './reducer';
-import App from './App'
-import CrisisService from './crisis-service';
-import HeroService from './hero-service';
-import AdminService from './admin-service';
+import App from './app-component'
+import HeroService from './hero-module/hero-service';
+import AdminService from './admin-module/admin-service';
+import CrisisService from './crisis-module/crisis-service';
+import Injector, { Inject } from 'test1';
 
-const store = createStore(reducer,
-  {
-    crisisService: new CrisisService(),
-    heroService: new HeroService(),
-    adminService: new AdminService(),
-  },
-  applyMiddleware(
-    thunkMiddleware
-  )
-);
+const config = [
+{
+  key: 'heroService', 
+  provider: HeroService
+},{
+  key: 'crisisService',
+  provider: CrisisService
+}, {
+  key: 'adminService',
+  provider: AdminService
+}];
 
 const render = Component => {
   ReactDOM.render(
     <AppContainer>
-      <Provider store={store}>
+      <Injector config={config}>
         <Component />
-      </Provider>
+      </Injector>
     </AppContainer>,
     document.getElementById('app')
   )
@@ -35,7 +33,7 @@ const render = Component => {
 render(App)
 
 if (module.hot) {
-  module.hot.accept('./App', () => { 
+  module.hot.accept('./app-component', () => { 
     render(App) 
   })
 }

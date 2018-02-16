@@ -1,13 +1,13 @@
 import React from 'react';
-import {Link, Route} from 'react-router-dom';
-import {Connect} from 'react-redux';
 import Rx from 'rxjs/Rx';
+import { Link, Route } from 'react-router-dom';
+import { Inject } from 'test1';
+import { TransitionGroup, CSSTransition, Transition} from '../../react-transition-group/src';
 import CrisisDetailComponent from './crisis-detail-component';
 import CrisisCenterHomeComponent from './crisis-center-home-component';
-import { connect } from 'react-redux';
 
-import { TransitionGroup, CSSTransition, Transition} from '../react-transition-group/src';
-export class Component extends React.Component {
+@Inject('crisisService')
+export default class CrisisListComponent extends React.Component {
 
   constructor() {
     super();  
@@ -36,7 +36,7 @@ export class Component extends React.Component {
 
     const renderLink = (crisis) => {
       return (
-        <CSSTransition timeout="400" key={crisis.id} classNames="listitem">
+        <CSSTransition timeout={400} key={crisis.id} classNames="listitem">
           <li>
             <Link to={`${match.url}/${crisis.id}`}>
               <span className="badge">{crisis.id}</span>
@@ -44,7 +44,6 @@ export class Component extends React.Component {
             </Link> 
           </li>
         </CSSTransition>
-
       ); 
     };
 
@@ -64,14 +63,3 @@ export class Component extends React.Component {
 
 }
 
-const mapStateToProps = ({crisisService}) => {
-  return {
-    crisisService,
-  };
-};
-
-const CrisisListComponent = connect(
-  mapStateToProps
-)(Component);
-
-export default CrisisListComponent;

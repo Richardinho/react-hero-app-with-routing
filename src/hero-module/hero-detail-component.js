@@ -1,8 +1,9 @@
 import React from 'react';
 import Rx from 'rxjs/Rx';
-import {connect} from 'react-redux';
+import {Inject} from 'test1';
 
-export class Component extends React.Component {
+@Inject('heroService')
+export default class HeroDetailComponent extends React.Component {
 
   constructor() {
     super();
@@ -68,14 +69,3 @@ export class Component extends React.Component {
   }
 }
 
-const mapStateToProps = ({heroService}) => {
-  return {
-    heroService,
-  };
-};
-
-const HeroDetailComponent = connect(
-  mapStateToProps
-)(Component);
-
-export default HeroDetailComponent;
