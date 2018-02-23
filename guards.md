@@ -50,8 +50,8 @@ export default class Login extends Component {
 }
 
 ```
-After the user logs in - by simply pressing the 'Login' button - a message will be sent to the `adminService` to alert it that the user is now loogged in; the `redirectBack()` method will be called which first extracts the address of the previous location from the query parameter then navigates to it.
+After the user logs in - by simply pressing the 'Login' button - a message will be sent to the `adminService` to alert it that the user is now logged in; the `redirectBack()` method will be called which first extracts the address of the previous location from the query parameter then navigates to it.
 
-Angular is obviously more convenient in providing guard functionality 'out of the box' than in React where they need to manually implemented.
+Angular is obviously more convenient in providing guard functionality 'out of the box' than in React where they need to be manually implemented.
 Implementing guards in React can range from the simple (as in the above case) to the more complex when you consider things like lazy loading and resolving data.
-There are third party libraries that provide this functionality, and these come accompanied with all the usual risks and benefits associated with such things.
+There are third party libraries that provide this functionality, but these come accompanied with all the usual risks and benefits associated with such things.
