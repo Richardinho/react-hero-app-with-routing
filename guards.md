@@ -1,42 +1,23 @@
 ##### Guards
-The purpose of a guard is to govern access both to and away from a route.
+The purpose of a guard is to govern access to a route.
 In Angular, there are a number of types of guard defined.
-The simplest is the `CanActivate` guard. It simply determines whether a route should be activated when its path matches the current location.
-There is an equivalent `CanDeactivate` guard which determines whether or not an active route can be deactivated.There is also a guard to determine whether a module can be lazily loaded, and also a resolve guard which allows data to be preloaded into the route.
+The simplest is the `CanActivate` guard which simply determines whether a route should be activated when its path matches the current location.
+There is an equivalent `CanDeactivate` guard which determines deactivation of a route.
+Angular guards can also be used for preloading data and for determining whether modules can be lazily loaded.
 
-The React router does not provide guards but it is not to difficult to manually implement them as we have done here.
+The React router does not provide guards but it is not too difficult to manually implement them, and this is what he have done here for the Hero app.
 
-The Hero app requires that the admin page can only be navigated to if the user is currently logged in. If she is not, then the app should redirect to the login page.
-This basically comes down to some branching logic which renders the admin components when the user is logged in and a `<Redirect/>` component otherwise.
-
+The Hero app requires that the admin page can only be navigated to if the user is currently logged in. 
+If they are not, then the app should redirect them to the login page.
+This basically comes down to some branching logic which renders the admin components when the user is logged in and a `<Redirect/>` component when they are logged out.
 ```
   if (this.props.adminservice.isloggedin()) {
     return (
       <div>
-        <h3>admin</h3>
-        <nav>
-          <link to="/admin/dashboard">dashboard</link>
-          <link to="/admin/manage-crisis">manage crises</link>
-          <link to="/admin/manage-heroes">manage heroes</link>
-        </nav>
+        <h3>admin page</h3>
+        
+        rest of page here...
 
-        <route  path="/admin/manage-crisis" render={() => {
-          return (<div classname="route">
-            <h2>manage crisis</h2> 
-            </div>) 
-        }}/>
-
-        <route path="/admin/dashboard" render={() => {
-          return (<div>
-            <h2>dashboard</h2> 
-          </div>) 
-        }}/>
-
-        <route path="/admin/manage-heroes" render={() => {
-          return (<div>
-            <h2>manage heroes</h2> 
-          </div>) 
-        }}/>
       </div>
     )    
   } else {
@@ -44,4 +25,31 @@ This basically comes down to some branching logic which renders the admin compon
   }
 
 ```
-I have not been able to work out how to implement a resolve guard in React
+
+The redirect URL includes a query parameter that gives the address to return to.
+Here is a fragment of component that is redirected to.
+
+```
+export default class Login extends Component {
+
+  ... 
+
+  redirectBack() {
+    const search = this.props.location.search.slice(1);
+    const params = queryString.parse(search);
+    const url = params.returnto || '/admin'; 
+    this.props.history.push(url);
+  }
+
+  logIn() {
+    this.props.adminService.logIn(); 
+    this.redirectBack();
+  }
+
+  ...
+}
+
+```
+After the user logs in - by simply pressing the 'Login' button - a message will be sent to the `adminService` to alert it that the user is now loogged in, then the `redirectBack()` method will be called which first extracts the address of the previous location from the query parameter thennavigates to it.
+
+Angular is obviously more convenient in providing guard functionality 'out of the box'. Implementing guards in React can range from the simple (as in the above case) to more complex when you consider things like lazy loading and resolving data. There are third party libraries that provide this functionality and these come accompanied by all the usual risks and benefits associated with such things.
