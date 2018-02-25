@@ -29,8 +29,6 @@ For example, dynamic routing can be used in conjunction with media queries to al
 On the other hand, Angular's routing system is more powerful than React's in some significant ways (as we shall see), but whether this is down to some fundamental difference between the two systems or a deficiency in React's implementation is open to question. As React's router evolves over time, we will find out the answer to this question.
 It does seem to me that in static routing, where routing information is centralised, gives the app more control when making routing decisions than in dynamic routing where routing information is encapsulated within components.
 
-#### Lazy Loading
-todo: investigate lazy loading in React
 
 #### Forms
 
