@@ -41,4 +41,5 @@ This is the library that is recommended on the [ react router website ](https://
   }
 
 ```
-The react-loadable library works well enough. Because the React paradigm is that One route can have many components,  I think it provides a greater degree of granularity as to which components are lazily loaded. With Angular, any one path can only be associated with a single component so is less flexible.
+##### Verdict
+The react-loadable library works well enough. Because the React paradigm is that one route can have many components,  I think it provides a greater degree of granularity as to which components are lazily loaded. With Angular, any one path can only be associated with a single component so is less flexible.
