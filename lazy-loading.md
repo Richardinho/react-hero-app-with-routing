@@ -16,6 +16,7 @@ When the relevant path is visited in the browser, Angular will make a request to
 
 ```
 In order to do something similar in React, I have used the [react-loadable](https://github.com/jamiebuilds/react-loadable) library. 
+This is the library that is recommended on the [ react router website ](https://reacttraining.com/react-router/web/guides/code-splitting). It does require a little boilerplate to be written. This is a higher order component which wraps the actual component.
 
 ```
 
