@@ -1,10 +1,3 @@
-### Angular's routing demonstration app implemented in React
-React and Angular are the foremost UI frameworks for building Single Page Applications in Javascript.
-Routing, that is to say the rendering of different content in response to changes in the URL without recourse to a full page refresh, is at the heart of such apps.
-Both Angular and React not suprisingly therefore provide sophisticated routing capabilities.
-I decided that it would be a good idea, for the purpose of comparing these capabilities, to create a version of Angular's demonstration app, featured in its routing documentation, but using React.
-
-All the code can be seen [here]() so it would be pointless and boring to go through it in minutae. Instead what I want to do is examine some of the features of Angular routing and show how they can be implemented in React using my app as an example.
 
 ##### Configuring routes
 Broadly speaking, React and Angulars routing system behave in similar ways.
