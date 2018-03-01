@@ -34,14 +34,6 @@ If the data fetch is unsuccessful then the component will not be activated, and 
 Angular has support for resolvers and they are used in the Hero app.
 //  todo: look into using resolvers in React
 
-### Named Outlets
-In Angular, the component that is associated with the currently active route is rendered into a directive called an `outlet`.
-In simple apps, there is just one outlet called the 'default'. It is possible though to have multiple outlets but in order to distinguish these they have to have a name.
-
-React router does not have named outlets because it doesn't have outlets. Any component can become active in response to any route. 
-It may seem that this allows the functionality of Angular's named outlets to be replicated easily enough in React, but in fact this is not so.
-Angular provides utilities for creating and parsing URLs which allows one to not just express a single route, but in fact many.
-Of course, it is possible to do this in React, but it requires manually writing the code yourself (or finding an appropriate library).
 
 
 ### Parameters

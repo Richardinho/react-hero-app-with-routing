@@ -1,6 +1,6 @@
 import React from 'react';
 import Rx from 'rxjs/Rx';
-import {Inject} from 'test1';
+import { Inject } from 'test1';
 
 @Inject('heroService')
 export default class HeroDetailComponent extends React.Component {

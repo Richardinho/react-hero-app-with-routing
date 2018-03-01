@@ -3,6 +3,7 @@ import { Link, Route } from 'react-router-dom';
 import CrisisListComponent from './crisis-list-component';
 
 export default class CrisisCenterComponent extends React.Component {
+
   constructor(props) {
     super(props);
   }
@@ -15,4 +16,5 @@ export default class CrisisCenterComponent extends React.Component {
       </div>
     );
   }
+
 }

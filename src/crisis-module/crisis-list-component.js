@@ -47,7 +47,6 @@ export default class CrisisListComponent extends React.Component {
       ); 
     };
 
-
     return (
       <div>
         <Route path={match.url} component={CrisisCenterHomeComponent}/>
@@ -55,11 +54,10 @@ export default class CrisisListComponent extends React.Component {
           {
             this.state.crises.map(renderLink) 
           } 
-         </TransitionGroup>
+        </TransitionGroup>
         <Route path={`${match.url}/:id`}  component={CrisisDetailComponent}/>
       </div>
     );
   }
-
 }
 

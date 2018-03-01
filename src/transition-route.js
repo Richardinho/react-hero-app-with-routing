@@ -14,7 +14,7 @@ export default class TransitionRoute extends React.Component {
     return (
       <Route
         path={this.props.path}
-        children={( props )=>(
+        children={( props ) =>(
           <TransitionGroup component={firstChild}>
           {
             props.match &&

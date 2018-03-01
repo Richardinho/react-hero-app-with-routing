@@ -15,4 +15,5 @@ export default class AdminService {
   logOut() {
     this.loggedIn = false; 
   }
+
 }

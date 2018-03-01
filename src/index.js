@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {AppContainer} from 'react-hot-loader'
+import { AppContainer } from 'react-hot-loader'
 import App from './app-component'
 import HeroService from './hero-module/hero-service';
 import AdminService from './admin-module/admin-service';

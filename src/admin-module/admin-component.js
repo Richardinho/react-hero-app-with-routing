@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Route , Redirect} from 'react-router-dom';
+import { Link, Route , Redirect } from 'react-router-dom';
 import { DashboardComponent } from './dashboard-component';
 import { Inject } from 'test1';
 

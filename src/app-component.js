@@ -10,7 +10,7 @@ import ContactComponent from './contact-component';
 import AdminComponent from './admin-module/admin-component';
 import LoginComponent from './admin-module/login-component';
 import { Inject } from 'test1';
-import { TransitionGroup, CSSTransition, Transition} from '../react-transition-group/src';
+import { TransitionGroup, CSSTransition, Transition } from '../react-transition-group/src';
 import TransitionRoute from './transition-route';
 
 const firstChild = props => {
@@ -48,9 +48,9 @@ export default class App extends Component {
             <h1 className="title">React Router</h1>
             <nav>
               <NavLink to="/crisis-center" activeClassName="active">Crisis Center</NavLink>
-              <NavLink to="/superheroes" activeClassName="active">Heroes</NavLink>
-              <NavLink to="/admin" activeClassName="active">Admin</NavLink>
-              <NavLink to="/login" activeClassName="active">Login</NavLink>
+              <NavLink to="/superheroes"   activeClassName="active">Heroes</NavLink>
+              <NavLink to="/admin"         activeClassName="active">Admin</NavLink>
+              <NavLink to="/login"         activeClassName="active">Login</NavLink>
               <button className="contact-link" onClick={this.openContact}>contact</button>
             </nav>
 
@@ -63,11 +63,11 @@ export default class App extends Component {
             </TransitionGroup>
 
             <div className="container">
-              <TransitionRoute component={HeroListComponent} path="/superheroes"/>
-              <TransitionRoute component={HeroDetailComponent} path="/hero/:id"/>
+              <TransitionRoute component={HeroListComponent}     path="/superheroes"  />
+              <TransitionRoute component={HeroDetailComponent}   path="/hero/:id"     />
               <TransitionRoute component={CrisisCenterComponent} path="/crisis-center"/>
-              <TransitionRoute component={AdminComponent} path="/admin"/>
-              <TransitionRoute component={LoginComponent} path="/login"/>
+              <TransitionRoute component={AdminComponent}        path="/admin"        />
+              <TransitionRoute component={LoginComponent}        path="/login"        />
             </div>
           </div>
         </BrowserRouter>
