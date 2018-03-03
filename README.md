@@ -25,33 +25,11 @@ It does seem to me that in static routing, where routing information is centrali
 
 #### Forms
 
-#### Resolvers
-The idea behind a resolver is that a component should only be activated if there is the correct data for it, otherwise it shouldn't.
-A resolver therefore acts somewhat like a guard.
-A resolver preloads data, or attempts to, before activating the component. 
-If the data fetch is unsuccessful then the component will not be activated, and the application will redirect somewhere else. 
-
-Angular has support for resolvers and they are used in the Hero app.
-//  todo: look into using resolvers in React
-
 
 
 ### Parameters
 Parameters are the means of encapsulating data within the URL. When the URL is navigated to, this data can be passed to the component or components associated with that route. Since static data is not so useful, there are various ways of making the data variable.
 Route parameters are where the data is part of the path itself. A part of parts of the route are defined to be parameters which can take any input and the route will still match.
-
-### Observables
-An Observable is data source which periodically emits data.
-It is also known as a 'stream'.
-They are somewhat like promises and streams can be used where these would normally have been used in web development, for example for reading data from a remote API.
-Observables are not an integral part of Angular, but Angular was built with Observables very much in mind. Thus across the documentation you will find lots of examples using Observables.
-One of the reasons why Observables are good is because they are a good fit with the event driven model of web applications. A series of user clicks on a button, for example, can be modelled as a stream.
-Rxjs provides lots of useful utility functions for working with streams which allow lots of common programming problems to be solved easily.
-In my view, one of the 'killer features' is the `SwitchMap`
-
-
-It is possible to use Observables in React just as in Angular. Normally, React applications use the 'Flow' paradigm and use Redux for handling data. In this app, I have used Redux, but more for dependency injection. (The reducer hardly does anything!).
-Is it possible to use Redux with Observables? 
 
 ### Redirects
 
