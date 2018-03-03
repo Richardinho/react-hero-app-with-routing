@@ -29,7 +29,6 @@ A quirk of named outlets is that once a component is rendered within it it will 
 
 ```
 this.router.navigate([{ outlets: { popup: null }}]);
-
 ```
 React Router does not support secondary routes or named outlets. 
 
