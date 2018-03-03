@@ -11,7 +11,6 @@ They are represented in the URL using a special syntax consisting of an outlet n
 
 ```
   http://localhost:4200/crisis-center(popup:compose)
-
 ```
 
 This secondary route signifies that the route with path 'compose' should be rendered into the named outlet called 'popup'.
@@ -39,4 +38,5 @@ Instead, I bound the rendering of the contact form to a boolean property.
 Although this may seem crude, I actually think it gives a better user experience: I don't believe that the displaying of the form is something that should be persisted within the browser history.
 
 I don't particularly like the concept of secondary routes. They seem to run contrary to the idea of URLs representing a single resource.
+
 
