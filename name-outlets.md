@@ -1,16 +1,21 @@
 ### Named Outlets
-Named Outlets are one of the features of Angular that are not easily replicated in React. This is a consequence of the
-different paradigms represented by the two libraries.
+Named Outlets are one of the features of Angular that are not easily replicated in React. 
+This is a consequence of the different paradigms represented by the two libraries.
 
-In Angular, the outlet is a DOM element into which is rendered the component configured for the current primary route. The primary route is the main part of the URL that appears to the immediate right of the schema and consists of url segments separated by forward slashes. But Angular also supports what are called 'secondary routes'. Secondary routes appear in the URL after the primary route and are surrounded in parenthesis. Following is an example.
+In Angular, the outlet is a DOM element into which is rendered the component configured for the current primary route. 
+The primary route is that represented by the main part of the URL: the part which appears to the immediate right of the schema and consists of URL segments separated by forward slashes.
+But Angular also supports what are called *secondary routes*. 
+Secondary routes are independent of the main route and are rendered into separate outlets, called *named outlets*.
+Secondary routes routes appear in the URL after the primary route and are surrounded in parenthesis, as in the following example:
+They are represented in the URL using a special syntax consisting of an outlet name and its corresponding path separated with a colon and surrounded by parenthesis, as in the following:
 
 ```
   http://localhost:4200/crisis-center(popup:compose)
 
 ```
-Secondary routes are independent of primary routes and are displayed in named outlets. The above URL signifies that the route that is configured in the routing module with a path of 'compose' is active and that it's component should be displayed in the outlet named 'popup'.
 
-This is what the configuration in the routing module looks like.
+This secondary route signifies that the route with path 'compose' should be rendered into the named outlet called 'popup'.
+Secondary routes are configured in a similar way to main routes.
 
 ```
 
@@ -21,18 +26,17 @@ This is what the configuration in the routing module looks like.
   }
 
 ```
-
-The named outlet will continue to display the component, even when the user clicks on another link, until the outlet is explicitly set to null.
+A quirk of named outlets is that once a component is rendered within it it will continue to be - even when the user navigates elsewhere - until the path of the route is explicitly set to *null*. 
 
 ```
 this.router.navigate([{ outlets: { popup: null }}]);
 
 ```
-React Router does not support multiple routes being encoded within a single URL. Neither does the concept of named outlets make sense in the React paradigm. In Angular, each route, primary or secondary, is associated with a single outlet. In React, on the other hand, there is only one route, by default, that is active at a time, but it can be associated with any number of components.
+React Router does not support secondary routes or named outlets. 
 
-This created a problem in implementing in React the contact form, which in Angular uses secondary routes.
-I solved this by showing the ContactComponent in response to a boolean property of the AppComponent's state, which can be toggled. 
-This may seem crude, but actually I don't think the contact form should be part of the persistent state of the page to begin with.
+This created a problem in implementing the contact form which in Angular uses secondary routes.
+Instead, I bound the rendering of the contact form to a boolean property.
+Although this may seem crude, I actually think it gives a better user experience: I don't believe that the displaying of the form is something that should be persisted within the browser history.
 
-Personally, I don't like the concept of secondary routes. It seems to fly in the fact of what the URL is supposed to mean: A single resource; not multiple.
-Named outlets and secondary routes seem to me to be a poor attempt to emulate the dynamic routes in React.
+I don't particularly like the concept of secondary routes. They seem to run contrary to the idea of URLs representing a single resource.
+
