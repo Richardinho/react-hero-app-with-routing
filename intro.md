@@ -14,16 +14,16 @@ Whilst I have a great deal of admiration for this project, a todo app is a bit t
 I thought it would be a good idea, therefore, to build a React version of the Hero app that features in Angular's documentation. 
 In this article I want to talk about this app. The finished code is [here](https://github.com/Richardinho/react-hero-app-with-routing).
 
-* [Table of contents](#table-of-contents)
+#### Contents
 * [Routing](#routing)
 * [Secondary Routes and Named Outlets](#secondary-routes-and-named-outlets)
-* Observables 
-* Parameters
-* Guards
-* Dependency Injection
-* Animations
-* Lazy Loading
-* Summary
+* [Observables](#observables)
+* [Parameters](#parameters)
+* [Guards](#guards)
+* [Dependency Injection](#dependency-injection)
+* [Animation](#animation)
+* [Lazy loading](#lazy-loading)
+* [Summary](#summary)
 
 
 #### Routing
