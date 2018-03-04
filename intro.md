@@ -1,4 +1,4 @@
-### Angular documentation's Hero app demo implemented using React
+### Implementing Angular's Hero app using React
 React and Angular are perhaps the two most popular UI frameworks for building Single Page Applications.
 SPAs are challenging to build because they are comprised of a lot of complex parts, e.g., routing, templates, data-binding, dependency injection, animations, communicating with a server etc.
 Both Angular and React (and its eco-system) provide facilities for building these parts.
@@ -13,6 +13,18 @@ Whilst I have a great deal of admiration for this project, a todo app is a bit t
 
 I thought it would be a good idea, therefore, to build a React version of the Hero app that features in Angular's documentation. 
 In this article I want to talk about this app. The finished code is [here](https://github.com/Richardinho/react-hero-app-with-routing).
+
+* [Table of contents](#table-of-contents)
+* [Routing](#routing)
+* [Secondary Routes and Named Outlets](#secondary-routes-and-named-outlets)
+* Observables 
+* Parameters
+* Guards
+* Dependency Injection
+* Animations
+* Lazy Loading
+* Summary
+
 
 #### Routing
 In a pattern that will become familiar, Angular has a built in router but React does not.
@@ -70,15 +82,13 @@ Compare this with the configuration within an Angular application:
 I personally find the React solution more elegant. It seems right to me that components should be able to decide for themselves what to do in response to the current location of the page.
 On the other hand, the Angular router has access to information on all the routes within the app. This potentially makes it more powerful than the React router.
 
-#### Named Outlets
-Named Outlets are one of the features of Angular that are not easily replicated in React. 
-This is a consequence of the different paradigms represented by the two libraries.
+I only experimented with whether React's router could match Angular. I did not attempt to find out in what ways it was better. React router's website claims that, because they use dynamic routes, their router is much more powerful than React's. This is something I would like to investigate in the future.
 
+#### Secondary Routes and Named Outlets
 In Angular, the outlet is a DOM element into which is rendered the component configured for the current primary route. 
 The primary route is that represented by the main part of the URL: the part which appears to the immediate right of the schema and consists of URL segments separated by forward slashes.
-But Angular also supports what are called *secondary routes*. 
-Secondary routes are independent of the main route and are rendered into separate outlets, called *named outlets*.
-Secondary routes routes appear in the URL after the primary route and are surrounded in parenthesis, as in the following example:
+Angular also supports *secondary routes*. 
+Secondary routes are independent of the main route and are rendered into separate outlets called *named outlets*.
 They are represented in the URL using a special syntax consisting of an outlet name and its corresponding path separated with a colon and surrounded by parenthesis, as in the following:
 
 ```
@@ -97,24 +107,24 @@ Secondary routes are configured in a similar way to main routes.
   }
 
 ```
-A quirk of named outlets is that once a component is rendered within it it will continue to be - even when the user navigates elsewhere - until the path of the route is explicitly set to *null*. 
+A quirk of named outlets is that once a component is rendered within it it will continue to be rendered there- even when the user navigates elsewhere - until the path of the secondary route is explicitly set to *null*. 
 
 ```
 this.router.navigate([{ outlets: { popup: null }}]);
 ```
 React Router does not support secondary routes or named outlets. 
 
-This created a problem in implementing the contact form which in Angular uses secondary routes.
-Instead, I bound the rendering of the contact form to a boolean property.
+This created a problem in implementing the contact form which in the Angular app uses secondary routes.
+My solution was to bind the rendering of the contact form to a boolean property.
 Although this may seem crude, I actually think it gives a better user experience: I don't believe that the displaying of the form is something that should be persisted within the browser history.
 
 I don't particularly like the concept of secondary routes. They seem to run contrary to the idea of URLs representing a single resource.
 
 #### Observables
-observables, also known as *Streams*, are data sources which emit values periodically.
-Although not an integral part of it, they are heavily used in Angular.
+Observables, also known as *streams*, are data sources which emit values periodically.
+Angular uses them heavily, although they aren't an integral part of it.
 
-They have some similarities to promises and can be used where they are, such as for carrying out fetches for data from the server.
+They have some similarities to promises and can often be used in place of them, such as for carrying out fetches for data from the server.
 One big advantage they have over promises is that they can be cancelled.
 In an app that uses routing, it is very useful to be able to cancel a fetch request when the user navigates to another page whilst the request is in flight.
 
@@ -245,16 +255,9 @@ export default class Login extends Component {
 }
 
 ```
-After the user logs in, by simply pressing the 'Login' button,  a message will be sent to the `adminService` to alert it that the user is now logged in; the `redirectBack()` method will be called, which first extracts the address of the previous location from the query parameter then navigates to it.
+After the user logs in, by pressing the 'Login' button,  a message will be sent to the `adminService` to alert it that the user is now logged in; the `redirectBack()` method will be called, which first extracts the address of the previous location from the query parameter then navigates to it.
 
-The Angular app also uses the `Resolve` and `CanLoad` guards.
-These are more challenging to implement, and I did not do so on this project. 
-
-Angular is obviously more convenient in providing guard functionality 'out of the box' than in React, where they need to be manually implemented.
-
-#### Resolvers
-A *resolver* is a type of guard that will attempt to retrieve data, usually from the server, and only allow the component to be rendered if the ddata is successfully retrieved. This means that when a fetch for data fails, there wont be the unsightly flash of an empty page.
-Angular has this capability out of the box. In React you need to implement it yourself.
+Angular wins over React in supplying guard functionality out of the box. 
 
 #### Dependency Injection
 One of the most significant ways that Angular differentiates itself from React is in its use of *dependency injection*, or *DI* for short.
@@ -391,7 +394,8 @@ Some of this code is undeniably a little opaque - firstChild, for example - and 
 Of course this is partly down to my own shortcomings, but, nonetheless, it does point to the issues that can be thrown up by not having, as Angular does, these things done for you.
 
 #### Lazy Loading
-Angular allows modules to be lazily loaded when the route that they are associated with are activated. Once again, this is functionality that does not come out of the box with React Router and so requires third party libraries.
+Angular allows modules to be lazily loaded when the route that they are associated with are activated. 
+React does not.
 
 
 Angular's lazy loading requires the configuration property `loadChildren` to be added to the route's configuration.
@@ -408,7 +412,8 @@ When the relevant path is visited in the browser, Angular will make a request to
 
 ```
 In order to do something similar in React, I have used the [react-loadable](https://github.com/jamiebuilds/react-loadable) library. 
-This is the library that is recommended on the [ react router website ](https://reacttraining.com/react-router/web/guides/code-splitting). It does require a little boilerplate to be written. This is a higher order component which wraps the actual component.
+This is the library that is recommended on the [ react router website ](https://reacttraining.com/react-router/web/guides/code-splitting). 
+It does require a little boilerplate to be written. This is a higher order component which wraps the actual component.
 
 ```
 
@@ -434,9 +439,9 @@ This is the library that is recommended on the [ react router website ](https://
 
 ```
 
-
-
 ### Summary
-I managed to replicate most of the behaviour of the original Angular app in my React version. There were many times when I had to write some code myself to do something that Angular just does for you. This is a good and a bad thing. Many developers dislike the way Angular takes all the coding out of their hands - they want to do it themselves! My view, however, is that Angular does tedious, error prone things, and this allows developers to concentrate on other things instead. That said, the dynamic routes paradigm in React is far more elegant than the static routes of Angular. In this project, my aim was too see how much React's router could be like Angular, but this means I wasn't trying to find out how it could do things that Angular perhaps can't! That is a project for another day. 
+I believe I have shown that React is just as powerful as Angular for creating a reasonably complicated SPA. There were only a few instances in which I struggled to replicate something that the Angular app did. Guards and resolving data are particular weaknesses of React. 
+This may be just a case of finding the right third party library that provides this functionality. 
+This of course is the fundamental difference between React and Angular: The latter just does these things for you.
+Which approach is better really a subjective matter.
 
-It will be interesting to see if the Angular team rebuild their router to use dynamic routes.
