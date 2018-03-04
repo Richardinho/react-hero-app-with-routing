@@ -1,22 +1,31 @@
 ### Angular documentation's Hero app demo implemented using React
 React and Angular are perhaps the two most popular UI frameworks for building Single Page Applications.
-SPAs are challenging to build owing to the fact that they are comprised of a number of different parts, each of which in itself can present a considerable programming challenge.
-Angular and React assist in the development of SPAs by providing solutions to these problems.
-In this article I want to carry out a comparison of these solutions.
-To help illustrate this discussion, I created a React application which emulates the demonstration Hero app that can be found in Angular's documentation.The code for this can be found [here](https://github.com/Richardinho/react-hero-app-with-routing)
+SPAs are challenging to build because they are comprised of a lot of complex parts, e.g., routing, templates, data-binding, dependency injection, animations, communicating with a server etc.
+Both Angular and React (and its eco-system) provide facilities for building these parts.
+As one would expect, much digital ink is expended comparing and contrasting Angular and React, and I intend to add expend some more!
+
+
+It's always important that a comparison be a fair one, and that one is not making the mistake of, as they often say, comparing apples and oranges.
+When comparing two software libraries, in order to make a fair comparison, it's a good idea to build an application with the same specifications for each library. 
+In order to make a fair comparison when comparing two software libraries, it's a good idea to build an application with the same behaviour for each one.
+A well known example of this is the ToDoMVC project.
+Whilst I have a great deal of admiration for this project, a todo app is a bit too simple to really showcase the full power of any library.
+
+I thought it would be a good idea, therefore, to build a React version of the Hero app that features in Angular's documentation. 
+In this article I want to talk about this app. The finished code is [here](https://github.com/Richardinho/react-hero-app-with-routing).
 
 The main difference between the React and Angular routers is that React's uses *dynamic routes* whilst Angular's uses *static routes*.
+
 What this means is that static routes are configured at compile time in a configuration file.
 Dynamic routes, however, are configured within Components themselves and so are able to respond to changes in the environment and user events that occur at run time. 
 As you would imagine, this gives a lot of flexibility.
-
-The configuration takes place within the JSX.
+Here is an example of configuring a route in React:
 
 ```
   <Route path="/crisis-center" component={ CrisisListComponent }/>
 ```
-Compare this with the configuration within an Angular application: 
 
+Compare this with the configuration within an Angular application: 
 
 ```
   const crisisCenterRoutes: Routes = [
@@ -45,10 +54,96 @@ Compare this with the configuration within an Angular application:
       ]
     }
   ];
-```
-There is another benefit in having components be responsible for configuration: If you look at Angular's static congfiguration, you will see that there is a one to one relationship between a route and a component. In fact, for any one route, it is only possible to display one component. This a serious hindrance in Angular. In React, however, any one route can have any number of components; it's up to the components!
 
-### Parameters
+```
+All the routes are configured separate from the components themselves. React's solution seems much more elegant to me than Anglular's and follows the declarative paradigm (which we are always told is a good thing!). 
+
+#### Dependency Injection
+One of the most significant ways that Angular differentiates itself from React is in its use of *dependency injection*, or *DI* for short.
+DI is common in backend frameworks (the Spring framework in Java, for example) but less so in front end ones.
+DI is essentially a system for creating the runtime objects that make up an application. 
+An application without DI will typically include a lot of code that instantiates objects and their dependencies. In a large system, this can quickly get very messy indeed. DI allows classes to simply declare (usually in some form of annotation) their dependencies, and DI will ensure that when the app starts up all the objects that it needs will be correctly instantiated and linked together.
+
+I have written about DI elsewhere on this blog. In addition to helping to keep code much leaner and cleaner, it also decouples objects from their dependencies, which greatly assists in testing them in isolation.
+
+Angular uses constructor injection to allow a class to declare what dependencies it needs. Here is an example:
+
+```
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    public dialogService: DialogService
+  ) {}
+```
+Nothing else is required for the developer to write. When an instance of the class is created it will have those three properties on it.
+
+I decided as an experiment to create a DI system for React.
+I decided that I would use ES7 decorators for the annotations that declare dependencies.
+
+This class uses the crisisService service (typically, dependencies are called services).
+```
+  @Inject('crisisService')
+  export default class CrisisDetailComponent extends React.Component {
+
+    constructor(props) {
+      super(props);
+
+      this.state = {
+        id: -1,
+        name: '',
+        editName: ''
+      }
+
+      this.handleNameChange = this.handleNameChange.bind(this); 
+      this.save = this.save.bind(this);
+    }
+
+    ...
+
+    componentDidMount() {
+      this.match = new Rx.BehaviorSubject(this.props.match);
+
+      this.subscription = this.match
+        .map(match => match.params.id) 
+        .switchMap(id => {
+          return Rx.Observable.fromPromise(this.props.crisisService.getCrisis(id)); 
+        })
+        .subscribe(crisis => {
+          this.setState(crisis);
+        });
+    }
+  }
+```
+The decorator takes as its arguments a series of 'keys' which refer to the services that have been registered with the DI system (or 'container').
+Here is how services are configured with the container.
+```
+  const config = [
+  {
+    key: 'heroService', 
+    provider: HeroService
+  },{
+    key: 'crisisService',
+    provider: CrisisService
+  }, {
+    key: 'adminService',
+    provider: AdminService
+  }];
+
+  const render = Component => {
+    ReactDOM.render(
+      <AppContainer>
+        <Injector config={config}>
+          <Component />
+        </Injector>
+      </AppContainer>,
+      document.getElementById('app')
+    )
+  }
+```
+Note that our Injector is actually also a component! It is passed an array of configuration objects. Each object has both a *key* and a *provider*. The provider is simply a class that the system will instantiate when an object requests it.
+
+#### Parameters
+
 Parameters are how data is passed in the URL to activated components.
 
 Angular has several kinds of parameter:
@@ -61,7 +156,7 @@ In theory, all these are possible in React too, but React doesn't provide suppor
 Angular also provides parameters as a stream. I have attempted to do the same by using a BehaviourSubject object and updating it whenever the match property changes.
 See the Observables section above for more detail.
 
-### Animations
+#### Animations
 Animations are created in React using the `react-transition-group` library.
 The aim in this app is to have a nice transition effect whenever a route changes.
 I achieve this using a custom class whose purpose is to wrap our route's component.
@@ -216,7 +311,7 @@ This is the library that is recommended on the [ react router website ](https://
   }
 
 ```
-### Named Outlets
+#### Named Outlets
 Named Outlets are one of the features of Angular that are not easily replicated in React. 
 This is a consequence of the different paradigms represented by the two libraries.
 
@@ -262,7 +357,7 @@ A *resolver* is a type of guard that will attempt to retrieve data, usually from
 Angular has this capability out of the box. In React you need to implement it yourself.
 
 
-### Observables
+#### Observables
 Observables, also known as *Streams*, are data sources which emit values periodically.
 Although not an integral part of it, they are heavily used in Angular.
 
@@ -327,3 +422,5 @@ For each match object, a new set of data is required from the server. You can se
 When the request is in flight, the user could navigate away from the route prompting a new request. If we were not careful, an old request could come back and get mixed up with a newer one. It is thus important that whenever we make a new request the old request is cancelled. `switchMap` method does this. In my opinion it is perhaps the 'killer feature' of observables.
 We also want to make sure that the observable is unsubscribed from when we un mount the component. You can see that we do this within the `componentWillUnmount` lifecycle method.
 
+### Summary
+I managed to replicate most of the behaviour of the original Angular app in my React version. There were many times when I had to write some code myself to do something that Angular just does for you. This is a good and a bad thing. Many developers dislike the way Angular takes all the coding out of their hands - they want to do it themselves! My view, however, is that Angular does tedious, error prone things, and this allows developers to concentrate on other things instead. That said, the dynamic routes paradigm in React is far more elegant than the static routes of Angular. In this project, my aim was too see how much React's router could be like Angular, but this means I wasn't trying to find out how it could do things that Angular perhaps can't! That is a project for another day. 
