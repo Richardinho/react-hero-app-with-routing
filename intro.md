@@ -174,6 +174,7 @@ For each match object, a new set of data is required from the server. You can se
 
 When the request is in flight, the user could navigate away from the route prompting a new request. If we were not careful, an old request could come back and get mixed up with a newer one. It is thus important that whenever we make a new request the old request is cancelled. `switchMap` method does this. In my opinion it is perhaps the 'killer feature' of observables.
 We also want to make sure that the observable is unsubscribed from when we un mount the component. You can see that we do this within the `componentWillUnmount` lifecycle method.
+
 #### Parameters
 
 Parameters are how data is passed in the URL to activated components.
@@ -184,11 +185,11 @@ Angular has several kinds of parameter:
 * query parameters - key value pairs appearing after the `?` symbol.
 * fragment - arbitrary string after the `#` symbol.
 
-In theory, all these are possible in React too, but React doesn't provide support out of the box for optional route parameters.
-Angular also provides parameters as a stream. I have attempted to do the same by using a BehaviourSubject object and updating it whenever the match property changes.
-See the Observables section above for more detail.
+React supports all of these apart from optional route parameters.
+Angular provides parameters to components, through the ActivatedRoute class, as a stream.
+I have done the same. You can see my solution in the section on Observables above.
 
-##### Guards
+#### Guards
 The purpose of a guard is to govern access to a route.
 In Angular, there are a number of types of guard defined.
 The simplest is the `CanActivate` guard, which simply determines whether a route should be activated when its path matches the current location.
@@ -259,7 +260,7 @@ Angular has this capability out of the box. In React you need to implement it yo
 One of the most significant ways that Angular differentiates itself from React is in its use of *dependency injection*, or *DI* for short.
 DI is common in backend frameworks (the Spring framework in Java, for example) but less so in front end ones.
 DI is essentially a system for creating the runtime objects that make up an application. 
-An application without DI will typically include a lot of code that instantiates objects and their dependencies. In a large system, this can quickly get very messy indeed. DI allows classes to simply declare (usually in some form of annotation) their dependencies, and DI will ensure that when the app starts up all the objects that it needs will be correctly instantiated and linked together.
+An application without DI will typically include a lot of code that instantiates objects and their dependencies. In a large system, this can quickly get very messy indeed. DI allows classes to simply declare (usually in some form of annotation) their dependencies, and DI will ensure that, when the app starts up, all the objects will be instantiated and have all the dependencies that they need.
 
 I have written about DI elsewhere on this blog. In addition to helping to keep code much leaner and cleaner, it also decouples objects from their dependencies, which greatly assists in testing them in isolation.
 
