@@ -21,7 +21,7 @@ In this article I want to talk about this app. The finished code is [here](https
 * [Parameters](#parameters)
 * [Guards](#guards)
 * [Dependency Injection](#dependency-injection)
-* [Animation](#animation)
+* [Animations](#animations)
 * [Lazy loading](#lazy-loading)
 * [Summary](#summary)
 
