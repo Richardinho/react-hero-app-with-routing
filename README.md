@@ -1,4 +1,4 @@
-### Implementing Angular's Hero app using React
+## Implementing Angular's Hero app using React
 SPAs are challenging to build because they are comprised of a lot of complex parts, e.g., routing, templates, data-binding, dependency injection, animations etc.
 It's no surprise that developers look for tools to help them build these things, and two of the most popular tools around at the moment are React and Angular.
 Two very different philosophies underpin these two technologies: 
@@ -13,7 +13,7 @@ This article is divided into sections; Each section concerns a different aspect 
 In each section, I will discuss how the Angular Heroes app deals with this, and then how I did in my version.
 
 
-#### Contents 
+### Contents 
 * [Routing](#routing)
   * [Configuration](#configuration)
   * [Secondary Routes and Named Outlets](#secondary-routes-and-named-outlets)
@@ -26,13 +26,13 @@ In each section, I will discuss how the Angular Heroes app deals with this, and 
 * [Summary](#summary)
 
 
-#### Routing
+### Routing
 Routing is an important part of SPAs so I will deal with this in a number of subsections.
 
 Here, I use the [*react-router*](https://github.com/ReactTraining/react-router) library, which is maintained by the [react training](https://reacttraining.com/) group.
 The main difference between the React router and Angular's is that the former uses *dynamic routes* whilst the latter's are *static*.
 
-##### Configuration
+#### Configuration
 Static routes are configured at start-up time in a configuration file and don't change during the lifetime of the application.
 Dynamic routes, on the other hand, are configured within the components themselves. 
 This means that they are able to respond to events that occur within the environment as the application runs. 
@@ -81,7 +81,7 @@ On the other hand, the Angular router has access to information on all the route
 This potentially makes it more powerful than the React router.
 There are some deficiencies in React's router - such as with resolvers - and these perhaps are one of the consequences of this.
 
-##### Secondary Routes and Named Outlets
+#### Secondary Routes and Named Outlets
 In Angular, the outlet is a DOM element into which is rendered the component configured for the current primary route. 
 The primary route is that represented by the main part of the URL: the part which appears to the immediate right of the schema and consists of URL segments separated by forward slashes.
 Angular also supports *secondary routes*. 
@@ -118,7 +118,7 @@ The rule of thumb I apply here is to ask myself: would I want to bookmark the pa
 The answer here, for a pop up dialog box, is no, in my opinion, so it's better to show it without changing the location.
 I don't particularly like the concept of secondary routes. They seem to run contrary to the idea of URLs representing a single resource.
 
-##### Parameters
+#### Parameters
 
 Parameters are how data is passed in the URL to activated components.
 
@@ -132,7 +132,7 @@ React supports all of these apart from optional route parameters, which are a bi
 Angular provides parameters to components, through the ActivatedRoute class, as a stream.
 You can see how I have implemented this in the section above on observables.
 
-##### Guards
+#### Guards
 The purpose of a guard is to govern access to a route.
 In Angular, there are a number of types of guard defined.
 The simplest is the `CanActivate` guard, which simply determines whether a route should be activated when its path matches the current location.
@@ -192,7 +192,7 @@ export default class Login extends Component {
 After the user logs in, by pressing the 'Login' button,  a message will be sent to the `adminService` to alert it that the user is now logged in; the `redirectBack()` method will be called, which first extracts the address of the previous location from the query parameter then navigates to it.
 
 Angular wins over React in supplying guard functionality out of the box. 
-#### Observables
+### Observables
 Observables, also known as *streams*, are data sources which emit values periodically.
 Angular uses them heavily, although they aren't an integral part of it.
 
@@ -276,7 +276,7 @@ You can see that we do this within the `componentWillUnmount` lifecycle method.
 Streams fit very well with the paradigms involved in web development and they work just as well with React as they do in Angular.
 
 
-#### Dependency Injection
+### Dependency Injection
 One of the most significant ways that Angular differentiates itself from React is in its use of *dependency injection*, or *DI* for short.
 DI is common in backend frameworks (the Spring framework in Java, for example) but less so in front end ones.
 DI is essentially a system for creating the runtime objects that make up an application. 
@@ -369,7 +369,7 @@ Each object has both a *key* and a *provider*.
 The provider is simply a class that the system will instantiate when an object requests it.
 
 
-#### Animations
+### Animations
 Animations are created in React using the `react-transition-group` library.
 The aim in this app is to have a nice transition effect whenever a route changes.
 I achieve this using a custom class whose purpose is to wrap our route's component.
@@ -418,7 +418,7 @@ It is used with exactly the same props and can be used as a drop in replacement 
 Some of this code is undeniably a little opaque - firstChild, for example - and a bit hacky.
 Of course this is partly down to my own shortcomings, but, nonetheless, it does point to the issues that can be thrown up by not having, as Angular does, these things done for you.
 
-#### Lazy Loading
+### Lazy Loading
 Angular allows modules to be lazily loaded when the route that they are associated with are activated. 
 React does not.
 
