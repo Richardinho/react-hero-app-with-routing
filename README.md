@@ -118,7 +118,7 @@ The rule of thumb I apply here is to ask myself: would I want to bookmark the pa
 The answer here, for a pop up dialog box, is no, in my opinion, so it's better to show it without changing the location.
 I don't particularly like the concept of secondary routes. They seem to run contrary to the idea of URLs representing a single resource.
 
-#### Parameters
+##### Parameters
 
 Parameters are how data is passed in the URL to activated components.
 
@@ -132,7 +132,7 @@ React supports all of these apart from optional route parameters, which are a bi
 Angular provides parameters to components, through the ActivatedRoute class, as a stream.
 You can see how I have implemented this in the section above on observables.
 
-#### Guards
+##### Guards
 The purpose of a guard is to govern access to a route.
 In Angular, there are a number of types of guard defined.
 The simplest is the `CanActivate` guard, which simply determines whether a route should be activated when its path matches the current location.
