@@ -1,37 +1,30 @@
 ### Implementing Angular's Hero app using React
-SPAs are challenging to build because they are comprised of a lot of complex parts, e.g., routing, templates, data-binding, dependency injection, animations, communicating with a server etc.
-React and Angular are perhaps the two most popular UI frameworks for building Single Page Applications.
+SPAs are challenging to build because they are comprised of a lot of complex parts, e.g., routing, templates, data-binding, dependency injection, animations etc.
+It's no surprise that developers look for tools to help them build these things, and two of the most popular tools around at the moment are React and Angular.
+Two very different philosophies underpin these two technologies: 
+Angular strives to be the one stop shop for everything that you need to build an SPA, whilst React, on the other hand, follows the Single Responsibility Rule of doing only one thing (and doing it well), and restricts itself to rendering components. 
+When your application needs things that React does not supply, the idea is that you either code it yourself or else find a third part library which does it for you.
+This gives you a lot more flexibility and freedom than the Angular approach.
 
-I decided that it would be useful, in order to compare these two technologies, to build, using React, a version of the Hero app that features in Angular's documentation. 
-The Hero app is a fairly complicated application and showcases a lot of the important aspects of an SPA, so it's a good basis for comparison.
-My aim was to make the two apps as identical as possible. 
-This article is organised into sections, each of which concerns a different facet of an SPA, and discusses how Angular handles them in their hero app; then, how I handle them in my version.
+I thought it would be useful to test this idea by creating a React application which replicates, as closely as possible, the behaviour of the demonstration app that Angular features on its website: the [Heroes](https://angular.io/guide/router) app.
+I think I came fairly close to achieving this goal, but I'll let you, the reader, be the judge. 
 
-The finished code is [here](https://github.com/Richardinho/react-hero-app-with-routing).
+This article is divided into sections; Each section concerns a different part of an SPA.
+In each section I will discuss how the Angular Heroes application deals with that part, and how I implented it in my version.
 
-#### Contents
+#### Contents 
 * [Routing](#routing)
 * [Secondary Routes and Named Outlets](#secondary-routes-and-named-outlets)
 * [Observables](#observables)
 * [Parameters](#parameters)
 * [Guards](#guards)
-* [Dependency Injection](#dependency-injection)
+* [Dependency tInjection](#dependency-injection)
 * [Animations](#animations)
 * [Lazy loading](#lazy-loading)
 * [Summary](#summary)
+h
 
-
-#### Routing
-In a pattern that will become familiar, Angular has a built in router but React does not.
-In general, React is not a framework but a library. 
-It provides a view for rendering a template but not much else besides. 
-Things that Angular provides, such as routing, animation, DI, form handling, data storage etc. 
-have to be supplied by third party vendors or else built by the developer himself.
-
-There's a lively debate as to which approach is preferable. 
-Supporters of React might say that libraries should follow the *single responsibility rule* and do only one thing and do it well, and developers should not be restricted in how they use it. 
-Angular advocates, on the other hand, would counter that their framework provides a one stop shop for everything a developer needs to build SPAs, making it far more convenient.
-Certainly, one of the challenges on this project was building the parts which React doesn't provide a solution for.
+#e### Routing
 
 Here, I use the [*react-router*](https://github.com/ReactTraining/react-router) library, which is maintained by the [react training](https://reacttraining.com/) group.
 The main difference between the React router and Angular's is that the former uses *dynamic routes* whilst the latter's are static.
@@ -78,15 +71,11 @@ Compare this with the configuration within an Angular application:
   ];
 
 ```
-I personally find the React solution more elegant. 
+React's dynamic routes seem much more elegant to me.
 It seems right to me that components should be able to decide for themselves what to do in response to the current location of the page.
 On the other hand, the Angular router has access to information on all the routes within the app. 
 This potentially makes it more powerful than the React router.
-
-I only experimented with whether React's router could match Angular. 
-I did not attempt to find out in what ways it was better. 
-React router's website claims that, because they use dynamic routes, their router is much more powerful than React's. 
-This is something I would like to investigate in the future.
+There are some deficiencies in React's router - such as with resolvers - and these perhaps are once of the consequences of this.
 
 #### Secondary Routes and Named Outlets
 In Angular, the outlet is a DOM element into which is rendered the component configured for the current primary route. 
@@ -111,7 +100,7 @@ Secondary routes are configured in a similar way to main routes.
   }
 
 ```
-A quirk of named outlets is that once a component is rendered within it it will continue to be rendered there- even when the user navigates elsewhere - until the path of the secondary route is explicitly set to *null*. 
+A quirk of named outlets is that once a component is rendered within it it will continue to be rendered there - even when the user navigates elsewhere - until the path of the secondary route is explicitly set to *null*. 
 
 ```
 this.router.navigate([{ outlets: { popup: null }}]);
