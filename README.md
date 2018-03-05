@@ -6,11 +6,12 @@ Angular strives to be the *one stop shop* for everything that you need to build 
 When your application needs things that React does not supply, the idea is that you either code it yourself or else find a third part library which does it for you.
 This gives you a lot more flexibility and freedom than the Angular approach.
 
-I thought it would be useful to test this idea by creating a React application which replicates, as closely as possible, the behaviour of the demonstration app that Angular features on its website: the [Heroes](https://angular.io/guide/router) app.
+I thought it would be useful to test this idea by creating a React application which replicates, as closely as possible, the behaviour of the demonstration [Heroes](https://angular.io/guide/router) app that Angular features on its website.
 I think I came fairly close to achieving this goal, but I'll let you, the reader, be the judge. 
 
-This article is divided into sections; Each section concerns a different part of an SPA.
-In each section I will discuss how the Angular Heroes application deals with that part, and how I implented it in my version.
+This article is divided into sections; Each section concerns a different aspect of an SPA. 
+In each section, I will discuss how the Angular Heroes app deals with this, and then how I did in my version.
+
 
 #### Contents 
 * [Routing](#routing)
