@@ -23,7 +23,7 @@ In each section, I will discuss how the Angular Heroes app deals with this, and 
 * [Animations](#animations)
 * [Lazy loading](#lazy-loading)
 * [Summary](#summary)
-h
+
 
 #e### Routing
 
@@ -463,10 +463,5 @@ This is a higher order component which wraps the actual component.
 ```
 
 ### Summary
-I believe I have shown that React is just as powerful as Angular for creating a reasonably complicated SPA. 
-There were only a few instances in which I struggled to replicate something that the Angular app did. 
-Guards and resolving data are particular weaknesses of React. 
-This may be just a case of finding the right third party library that provides this functionality. 
-This of course is the fundamental difference between React and Angular: The latter just does these things for you.
-Which approach is better really a subjective matter.
-
+Whilst I still prefer Angular's all encompassing approach, it is perfectly possible to use React, along with its eco-sytem of third party libraries, to build the same things that you can build in Angular.
+The benefits and disadvantages of this are the same as those of using third party libraries in general. 
