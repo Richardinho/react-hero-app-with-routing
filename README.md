@@ -15,22 +15,25 @@ In each section, I will discuss how the Angular Heroes app deals with this, and 
 
 #### Contents 
 * [Routing](#routing)
-* [Secondary Routes and Named Outlets](#secondary-routes-and-named-outlets)
+ - [Configuration](#configuration)
+ - [Secondary Routes and Named Outlets](#secondary-routes-and-named-outlets)
+ - [Guards](#guards)
+ - [Parameters](#parameters)
 * [Observables](#observables)
-* [Parameters](#parameters)
-* [Guards](#guards)
-* [Dependency tInjection](#dependency-injection)
+* [Dependency Injection](#dependency-injection)
 * [Animations](#animations)
 * [Lazy loading](#lazy-loading)
 * [Summary](#summary)
 
 
-#e### Routing
+#### Routing
+Routing is an important part of SPAs so I will deal with this in a number of subsections.
 
 Here, I use the [*react-router*](https://github.com/ReactTraining/react-router) library, which is maintained by the [react training](https://reacttraining.com/) group.
-The main difference between the React router and Angular's is that the former uses *dynamic routes* whilst the latter's are static.
+The main difference between the React router and Angular's is that the former uses *dynamic routes* whilst the latter's are *static*.
 
-Static routes are configured at start-up time in a configuration file and don't change for the lifetime of the application.
+##### Configuration
+Static routes are configured at start-up time in a configuration file and don't change during the lifetime of the application.
 Dynamic routes, on the other hand, are configured within the components themselves. 
 This means that they are able to respond to events that occur within the environment as the application runs. 
 As you would imagine, this gives a lot of flexibility which is not provided by Angular's router.
@@ -76,9 +79,9 @@ React's dynamic routes seem much more elegant to me.
 It seems right to me that components should be able to decide for themselves what to do in response to the current location of the page.
 On the other hand, the Angular router has access to information on all the routes within the app. 
 This potentially makes it more powerful than the React router.
-There are some deficiencies in React's router - such as with resolvers - and these perhaps are once of the consequences of this.
+There are some deficiencies in React's router - such as with resolvers - and these perhaps are one of the consequences of this.
 
-#### Secondary Routes and Named Outlets
+##### Secondary Routes and Named Outlets
 In Angular, the outlet is a DOM element into which is rendered the component configured for the current primary route. 
 The primary route is that represented by the main part of the URL: the part which appears to the immediate right of the schema and consists of URL segments separated by forward slashes.
 Angular also supports *secondary routes*. 
@@ -115,6 +118,80 @@ The rule of thumb I apply here is to ask myself: would I want to bookmark the pa
 The answer here, for a pop up dialog box, is no, in my opinion, so it's better to show it without changing the location.
 I don't particularly like the concept of secondary routes. They seem to run contrary to the idea of URLs representing a single resource.
 
+#### Parameters
+
+Parameters are how data is passed in the URL to activated components.
+
+Angular has several kinds of parameter:
+* route parameters - these are part of the path. e.g. '/foo/:id'
+* optional route parameters - these use matrix notation and allow optional, complex, or multi-variant values.
+* query parameters - key value pairs appearing after the `?` symbol.
+* fragment - arbitrary string after the `#` symbol.
+
+React supports all of these apart from optional route parameters, which are a bit of an Angular specific thing.
+Angular provides parameters to components, through the ActivatedRoute class, as a stream.
+You can see how I have implemented this in the section above on observables.
+
+#### Guards
+The purpose of a guard is to govern access to a route.
+In Angular, there are a number of types of guard defined.
+The simplest is the `CanActivate` guard, which simply determines whether a route should be activated when its path matches the current location.
+There is a `CanDeactivate` guard, which determines deactivation of a route.
+Angular guards can also be used for preloading data and determining whether modules can be lazily loaded.
+
+The React router does not provide guards, but it is possible to manually implement them.
+
+The Angular version of the Hero app uses several different kinds of guard.
+In this app, I implemented an equivalent to the 'CanActivate' guard for the admin section.
+
+The app requires that the admin page can only be navigated to if the user is currently logged in. 
+If they are not, then the app should redirect them to the login page.
+This basically comes down to some branching logic: 
+When the user is logged in, the admin components are rendered; otherwise, a `<Redirect/>` component is rendered which, as the name suggests, redirects them to the login page.
+
+```
+  if (this.props.adminservice.isloggedin()) {
+    return (
+      <div>
+        <h3>admin page</h3>
+        
+        rest of page here...
+
+      </div>
+    )    
+  } else {
+    return (<redirect to="/login?returnto=/admin"/>);
+  }
+
+```
+
+The redirect URL includes a query parameter that gives the address to return to.
+Here is a fragment of the component that is redirected to.
+
+```
+export default class Login extends Component {
+
+  ... 
+
+  redirectBack() {
+    const search = this.props.location.search.slice(1);
+    const params = queryString.parse(search);
+    const url = params.returnto || '/admin'; 
+    this.props.history.push(url);
+  }
+
+  logIn() {
+    this.props.adminService.logIn(); 
+    this.redirectBack();
+  }
+
+  ...
+}
+
+```
+After the user logs in, by pressing the 'Login' button,  a message will be sent to the `adminService` to alert it that the user is now logged in; the `redirectBack()` method will be called, which first extracts the address of the previous location from the query parameter then navigates to it.
+
+Angular wins over React in supplying guard functionality out of the box. 
 #### Observables
 Observables, also known as *streams*, are data sources which emit values periodically.
 Angular uses them heavily, although they aren't an integral part of it.
@@ -198,80 +275,6 @@ You can see that we do this within the `componentWillUnmount` lifecycle method.
 
 Streams fit very well with the paradigms involved in web development and they work just as well with React as they do in Angular.
 
-#### Parameters
-
-Parameters are how data is passed in the URL to activated components.
-
-Angular has several kinds of parameter:
-* route parameters - these are part of the path. e.g. '/foo/:id'
-* optional route parameters - these use matrix notation and allow optional, complex, or multi-variant values.
-* query parameters - key value pairs appearing after the `?` symbol.
-* fragment - arbitrary string after the `#` symbol.
-
-React supports all of these apart from optional route parameters, which are a bit of an Angular specific thing.
-Angular provides parameters to components, through the ActivatedRoute class, as a stream.
-You can see how I have implemented this in the section above on observables.
-
-#### Guards
-The purpose of a guard is to govern access to a route.
-In Angular, there are a number of types of guard defined.
-The simplest is the `CanActivate` guard, which simply determines whether a route should be activated when its path matches the current location.
-There is a `CanDeactivate` guard, which determines deactivation of a route.
-Angular guards can also be used for preloading data and determining whether modules can be lazily loaded.
-
-The React router does not provide guards, but it is possible to manually implement them.
-
-The Angular version of the Hero app uses several different kinds of guard.
-In this app, I implemented an equivalent to the 'CanActivate' guard for the admin section.
-
-The app requires that the admin page can only be navigated to if the user is currently logged in. 
-If they are not, then the app should redirect them to the login page.
-This basically comes down to some branching logic: 
-When the user is logged in, the admin components are rendered; otherwise, a `<Redirect/>` component is rendered which, as the name suggests, redirects them to the login page.
-
-```
-  if (this.props.adminservice.isloggedin()) {
-    return (
-      <div>
-        <h3>admin page</h3>
-        
-        rest of page here...
-
-      </div>
-    )    
-  } else {
-    return (<redirect to="/login?returnto=/admin"/>);
-  }
-
-```
-
-The redirect URL includes a query parameter that gives the address to return to.
-Here is a fragment of the component that is redirected to.
-
-```
-export default class Login extends Component {
-
-  ... 
-
-  redirectBack() {
-    const search = this.props.location.search.slice(1);
-    const params = queryString.parse(search);
-    const url = params.returnto || '/admin'; 
-    this.props.history.push(url);
-  }
-
-  logIn() {
-    this.props.adminService.logIn(); 
-    this.redirectBack();
-  }
-
-  ...
-}
-
-```
-After the user logs in, by pressing the 'Login' button,  a message will be sent to the `adminService` to alert it that the user is now logged in; the `redirectBack()` method will be called, which first extracts the address of the previous location from the query parameter then navigates to it.
-
-Angular wins over React in supplying guard functionality out of the box. 
 
 #### Dependency Injection
 One of the most significant ways that Angular differentiates itself from React is in its use of *dependency injection*, or *DI* for short.
