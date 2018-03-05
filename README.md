@@ -15,10 +15,10 @@ In each section, I will discuss how the Angular Heroes app deals with this, and 
 
 #### Contents 
 * [Routing](#routing)
- - [Configuration](#configuration)
- - [Secondary Routes and Named Outlets](#secondary-routes-and-named-outlets)
- - [Guards](#guards)
- - [Parameters](#parameters)
+  * [Configuration](#configuration)
+  * [Secondary Routes and Named Outlets](#secondary-routes-and-named-outlets)
+  * [Guards](#guards)
+  * [Parameters](#parameters)
 * [Observables](#observables)
 * [Dependency Injection](#dependency-injection)
 * [Animations](#animations)
