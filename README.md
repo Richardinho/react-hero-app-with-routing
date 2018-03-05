@@ -2,7 +2,7 @@
 SPAs are challenging to build because they are comprised of a lot of complex parts, e.g., routing, templates, data-binding, dependency injection, animations etc.
 It's no surprise that developers look for tools to help them build these things, and two of the most popular tools around at the moment are React and Angular.
 Two very different philosophies underpin these two technologies: 
-Angular strives to be the *one stop shop* for everything that you need to build an SPA, whilst React, on the other hand, follows the Single Responsibility Rule of doing only one thing (and doing it well), and restricts itself to rendering components. 
+Angular strives to be the *one stop shop* for everything that you need to build an SPA, whilst React, on the other hand, follows the [ Single Responsibility Principle ](https://en.wikipedia.org/wiki/Single_responsibility_principle) of doing only one thing (and doing it well), and restricts itself to rendering components. 
 When your application needs things that React does not supply, the idea is that you either code it yourself or else find a third part library which does it for you.
 This gives you a lot more flexibility and freedom than the Angular approach.
 
