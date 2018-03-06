@@ -41,6 +41,7 @@ Static routes are configured at start-up time in a configuration file and don't 
 Dynamic routes, on the other hand, are configured within the components themselves. 
 This means that they are able to respond to events that occur within the environment as the application runs. 
 As you would imagine, this gives a lot of flexibility which is not provided by Angular's router.
+For example, with dynamic routes, a route could become active in response to changes in the viewport size.
 
 Here is an example of configuring a route in React:
 
@@ -79,24 +80,25 @@ Compare this with the configuration within an Angular application:
   ];
 
 ```
-I find React's dynamic routes to be more elegant.
-It seems right to me that components should be able to decide for themselves what to do in response to the current location of the page.
-On the other hand, the Angular router has access to information on all the routes within the app. 
-This potentially makes it more powerful than the React router.
+I find React's dynamic routes to be more elegant, and it seems right to me that components should be able to decide for themselves what to do in response to the current location.
 
 #### Secondary Routes and Named Outlets
-In Angular, the outlet is a DOM element into which is rendered the component configured for the current primary route. 
-The primary route is that represented by the main part of the URL: the part which appears to the immediate right of the schema and consists of URL segments separated by forward slashes.
-Angular also supports *secondary routes*. 
-Secondary routes are independent of the main route and are rendered into separate outlets called *named outlets*.
-They are represented in the URL using a special syntax consisting of an outlet name and its corresponding path, separated with a colon, and surrounded by parenthesis, as in the following:
+As we have seen, in React, a Route is simply a component, so an application can display as many Routes at one times as you wish.
+In Angular, the situation is a bit more restricted.
+Routes are arranged in a tree like structure.
+At any one level of the tree, only one primary Route can be active at a time.
+This one route is rendered into a special DOM element called an `outlet`.
+There are things called *secondary routes* as well.
+Secondary routes are independent of primary routes and can be active at the same time.
+They too are rendered into outlets, but these are *named outlets*.
+Secondary routes are represented in the URL using a special syntax: 
 
-```
   http://localhost:4200/crisis-center(popup:compose)
-```
 
-This secondary route signifies that the route with path 'compose' should be rendered into the named outlet called 'popup'.
-Secondary routes are configured in a similar way to main routes.
+The secondary route syntax is that appearing within parenthesis.
+What this example means is that a secondary route with the path 'compose' should become active and be rendered into the outlet named 'popup'.
+
+All of this is configured within the routing module:
 
 ```
 
@@ -107,19 +109,58 @@ Secondary routes are configured in a similar way to main routes.
   }
 
 ```
-A quirk of named outlets is that once a component is rendered within it it will continue to be rendered there - even when the user navigates elsewhere - until the path of the secondary route is explicitly set to *null*. 
+Secondary routes will persist within a named outlet, even with the URL changes, until it is explicitly set to null:
 
 ```
 this.router.navigate([{ outlets: { popup: null }}]);
 ```
-React Router does not support secondary routes or named outlets. 
 
-This created a problem in implementing the contact form which in the Angular app uses secondary routes.
-My solution was to bind the rendering of the contact form to a boolean property.
+In the Heroes app, the contact form that pops up uses secondary routes. 
+This created a problem for my implementation.
+I solved this by simply binding the opening or closing of the form to a boolean property. 
+Clicking on a button by the user would lead to this property being toggled.
+
+```
+  export default class ContactComponent extends Component {
+
+    render() {
+      return (
+        <div className="contact-form">
+          <h3>Contact Crisis Center</h3>
+          <div>
+           details 
+          </div>
+          <div>
+            <div>
+              <label>Message: </label>
+            </div>
+            <div>
+              <textarea 
+                rows="10" 
+                cols="35" 
+                ></textarea>
+            </div>
+          </div>
+          <p>
+            <button onClick={ this.props.close }>Send</button>
+            <button onClick={ this.props.close }>Cancel</button>
+          </p>
+        </div>
+      );
+    }
+  }
+```
 Although this may seem crude, I actually think it gives a better user experience: I don't believe that the displaying of the form is something that should be persisted within the browser history.
 The rule of thumb I apply here is to ask myself: would I want to bookmark the page in this state? 
 The answer here, for a pop up dialog box, is no, in my opinion, so it's better to show it without changing the location.
-I don't particularly like the concept of secondary routes. They seem to run contrary to the idea of URLs representing a single resource.
+
+I'm actually a bit sceptical of secondary routes in general. 
+I think SPAs should behave as far as possible like traditional Web sites.
+The user shouldn't even be aware that it isn't one.
+As such, having secondary routes encoded within the URL seems to me to go against the principle of a URL representing a single resource.
+
+It seems to me to be a rather over-engineered attempt to show multiple routes at once.
+This is definitely a case when React's router is superior to Angular's.
 
 #### Parameters
 
@@ -137,15 +178,14 @@ You can see how I have implemented this in the section above on Observables.
 
 #### Guards
 The purpose of a guard is to govern access to a route.
-In Angular, there are a number of types of guard defined.
+Angular provides all sorts of guards.
 The simplest is the `CanActivate` guard, which simply determines whether a route should be activated when its path matches the current location.
 There is a `CanDeactivate` guard, which determines deactivation of a route.
 Angular guards can also be used for preloading data and determining whether modules can be lazily loaded.
 
-The React router does not provide guards, but it is possible to manually implement them.
-
-The Angular Heroes app uses several different kinds of guard.
-In this app, I implemented an equivalent to the 'CanActivate' guard for the admin section.
+React router does not provide guards so you have to implement them yourself.
+The Angular Heroes app uses several different types of guard. 
+I only implmented the most simple of these, the `CanActivate` guard.
 
 The app requires that the admin page can only be navigated to if the user is currently logged in. 
 If they are not, then the app should redirect them to the login page.
@@ -194,18 +234,21 @@ export default class Login extends Component {
 ```
 After the user logs in, by pressing the 'Login' button,  a message will be sent to the `adminService` to alert it that the user is now logged in; the `redirectBack()` method will be called, which first extracts the address of the previous location from the query parameter then navigates to it.
 
+Other guards in the Heroes app are guards for governing access to child routes, lazily loaded routes, and for preloading, or resolving, data.
+For this project, I did not implement these.
+
 ### Observables
 Although they are not an integral part of it, Angular uses *Observables*, (also known as streams), heavily.
 An Observable is a data source that periodically emits a value.
 I like to think of it as an array with an extra dimension of time.
 They have some similarities to promises and can often be used in place of them, such as for carrying out fetches for data from the server.
 One big advantage they have over promises is that they can be cancelled.
-This is super for useful when the app makes a call to the server and then the user navigates to another location whilst the request is in flight.
+This is super-useful when the app makes a call to the server and then the user navigates to another location whilst the request is in flight.
 
-React can use of Observables as well, of course, but typically React apps use Redux instead. 
+React can use Observables as well, of course, but, typically, React apps use Redux instead. 
 Redux can also be made to work with Observables, but at the cost of much greater complexity - something that Redux is supposed to avoid.
 
-Here's how I used Observables in my Heroes app:
+Anyway, here's how I used Observables in my Heroes app:
 
 ```
 
@@ -255,7 +298,7 @@ Here's how I used Observables in my Heroes app:
 ```
 In this case, the Observable `this.match` represents a stream of `match` objects.
 A match object represents a match between the route's path and the current location. 
-It contains useful data about this map such as the portion of the URL that is matched.
+It contains useful data about this map such as the portion of the URL that was matched.
 
 The reason why an Observable makes sense in this case is because the same route can be matched by succeeding locations.
 A navigation isn't necessarily always to another page; It may be to the same page but with different parameters. 
@@ -273,8 +316,6 @@ What it does is map a stream of values to a stream of Observables and returns a 
 
 We also want to make sure that the Observable is unsubscribed from when we unmount the component. 
 You can see that we do this within the `componentWillUnmount` lifecycle method.
-
-Streams fit very well with the paradigms involved in web development and they work just as well with React as they do in Angular.
 
 
 ### Dependency Injection
