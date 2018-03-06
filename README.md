@@ -85,10 +85,10 @@ Compare this with the configuration within an Angular application:
 I find React's dynamic routes to be more elegant, and it seems right to me that components should be able to decide for themselves what to do in response to the current location.
 
 #### Secondary Routes and Named Outlets
-As we have seen, in React, a Route is simply a component, so an application can display as many Routes at one times as you wish.
+As we have seen, in React, a route is simply a component, so an application can display as many routes at one time as you wish.
 In Angular, the situation is a bit more restricted.
 Routes are arranged in a tree like structure.
-At any one level of the tree, only one primary Route can be active at a time.
+At any one level of the tree, only one primary route can be active at a time.
 This one route is rendered into a special DOM element called an `outlet`.
 
 There are things called *secondary routes* as well.
@@ -158,14 +158,14 @@ Clicking on a button by the user would lead to this property being toggled.
 ```
 Although this may seem crude, I actually think it gives a better user experience: I don't believe that the displaying of the form is something that should be persisted within the browser history.
 The rule of thumb I apply here is to ask myself: would I want to bookmark the page in this state? 
-The answer here, for a pop up dialog box, is no, in my opinion, so it's better to show it without changing the location.
+The answer here, for a pop up dialog box, is *no*, in my opinion, so it's better to show it without changing the location.
 
 I'm actually a bit sceptical of secondary routes in general. 
 I think SPAs should behave as far as possible like traditional Web sites.
 The user shouldn't even be aware that it isn't one.
 As such, having secondary routes encoded within the URL seems to me to go against the principle of a URL representing a single resource.
 
-It seems to me to be a rather over-engineered attempt to show multiple routes at once.
+It feels like a rather over-engineered attempt to show multiple routes at once.
 This is definitely a case when React's router is superior to Angular's.
 
 #### Parameters
@@ -173,20 +173,20 @@ This is definitely a case when React's router is superior to Angular's.
 Parameters are how data is passed in the URL to activated components.
 
 Angular has several kinds of parameter:
-* route parameters - these are part of the path. e.g. '/foo/:id'
+* route parameters - these are part of the path. e.g. `/foo/:id`
 * optional route parameters - these use matrix notation and allow optional, complex, or multi-variant values.
 * query parameters - key value pairs appearing after the `?` symbol.
 * fragment - arbitrary string after the `#` symbol.
 
 React supports all of these apart from optional route parameters, which are a bit of an Angular specific thing.
 Angular provides parameters to components, through the ActivatedRoute class, as a stream.
-You can see how I have implemented this in the section above on Observables.
+You can see how I have implemented this in the section below on [ Observables ](#observables).
 
 #### Guards
 The purpose of a guard is to govern access to a route.
 Angular provides all sorts of guards.
 The simplest is the `CanActivate` guard, which simply determines whether a route should be activated when its path matches the current location.
-There is a `CanDeactivate` guard, which determines deactivation of a route.
+There is also a `CanDeactivate` guard, which determines deactivation of a route.
 Angular guards can also be used for preloading data and determining whether modules can be lazily loaded.
 
 React router does not provide guards so you have to implement them yourself.
@@ -196,7 +196,7 @@ I only implmented the most simple of these, the `CanActivate` guard.
 The app requires that the admin page can only be navigated to if the user is currently logged in. 
 If they are not, then the app should redirect them to the login page.
 This basically comes down to some branching logic: 
-When the user is logged in, the admin components are rendered; otherwise, a `<Redirect/>` component is rendered which, as the name suggests, redirects them to the login page.
+When the user is logged in, the admin components are rendered; otherwise, a `<Redirect/>` component is rendered which, as the name suggests, redirects them somewhere (to the login page).
 
 ```javascript
   if (this.props.adminservice.isloggedin()) {
@@ -318,7 +318,7 @@ If we were not careful, an old request could come back and get mixed up with a n
 It is thus important that whenever we make a new request the old request is cancelled. 
 The `switchMap` method does this. 
 In my opinion it is perhaps the 'killer feature' of Observables.
-What it does is map a stream of values to a stream of Observables and returns a new stream which emits the values emitted by these inner streams.The critical part of it is that when there is a new value on the input stream (our stream of match objects) all the inner streams for which we are still waiting for output on are cancelled. 
+What it does is map a stream of values to a stream of Observables and returns a new stream which emits the values emitted by these inner streams. The critical part of it is that when there is a new value on the input stream (our stream of match objects) all the inner streams for which we are still waiting for output on are cancelled. 
 
 We also want to make sure that the Observable is unsubscribed from when we unmount the component. 
 You can see that we do this within the `componentWillUnmount` lifecycle method.
@@ -350,7 +350,7 @@ When an instance of the class is created it will have those three properties on 
 
 Since React does not have a dependency injection system, I had to create it myself.
 It isn't possible to use constructor injection in React components because the constructor is called somewhere within React.
-Instead, what I do is use ES7 decorators for annotation dependencies on a component, and then the DI system adds the instantiated dependencies onto the `props` object.
+Instead, what I do is use ES7 decorators for annotating dependencies on a component, and then the DI system adds the instantiated dependencies onto the `props` object.
 
 ```javascript
   @Inject('crisisService')
@@ -419,7 +419,7 @@ It is passed an array of configuration objects.
 Each object has both a *key* and a *provider*. 
 
 Angular's DI system is of course a lot more complicated, but this does the job. 
-You can see the code for it [here](https://github.com/Richardinho/di-for-react);
+You can see the code for it [here](https://github.com/Richardinho/di-for-react).
 
 I do find the lack of DI in React a significant failing.
 I think React applications do suffer from tightly coupled objects as a result.
@@ -474,7 +474,7 @@ This class acts as a drop in for Route components, as you can see here:
 
 ### Lazy Loading
 Angular allows modules to be lazily loaded when the route that they are associated with are activated. 
-This is set up in the Route configuration via the `loadChildren` property.
+This is set up in the route configuration via the `loadChildren` property.
 
 ```javascript
 
@@ -515,11 +515,11 @@ This is a higher order component which wraps the actual component.
 
 ```
 The behavior is a little different from Angular.
-In Angular, the unit of lazy loading is a Route. 
+In Angular, the unit of lazy loading is a route. 
 In React, any component can be lazy loaded when it becomes active.
 Obviously, this makes lazy loading a bit more fine grained in React.
 
 ### Summary
-Whilst I still prefer Angular's all encompassing approach, it is perfectly possible to use React, along with its eco-sytem of third party libraries, to build the same things that you can build in Angular.
+I hope that anyone reading this article and looking at my code will find this useful.
+My final judgement on using React to build SPAs is that it is perfectly adequate for the job providing that you are willing to do the necessary legwork to learn about other libraries.
 
-The benefits and disadvantages of this are the same as those of using third party libraries in general. 
