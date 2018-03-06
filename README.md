@@ -10,7 +10,7 @@ The core React library itself only provides the facility for rendering views, an
 It's expected that for other parts of your application you will either write your own code or else use a third party library.
 
 I thought it would be useful to test this idea by creating an SPA using React.
-So as to make a fair comparision with Angular, I decided to create a version of the [Heroes app](https://angular.io/guide/router), which appears in Angular's documentation.
+So as to make a fair comparision with Angular, I decided to create a version of Angular's showcase [Heroes app](https://angular.io/guide/router) from their documentation.
 
 My aim was to make my React version as close to the original as possible.
 I think I came fairly close to achieving this goal, but I'll let you, the reader, be the judge. 
