@@ -90,12 +90,16 @@ In Angular, the situation is a bit more restricted.
 Routes are arranged in a tree like structure.
 At any one level of the tree, only one primary Route can be active at a time.
 This one route is rendered into a special DOM element called an `outlet`.
+
 There are things called *secondary routes* as well.
 Secondary routes are independent of primary routes and can be active at the same time.
 They too are rendered into outlets, but these outlets are *named outlets*.
+
 Secondary routes are represented in the URL using a special syntax: 
 
+```
   http://localhost:4200/crisis-center(popup:compose)
+```
 
 The secondary route syntax is that appearing within parenthesis.
 What this example means is that a secondary route with the path 'compose' should become active and be rendered into the outlet named 'popup'.
@@ -122,7 +126,7 @@ This created a problem for my implementation.
 I solved this by simply binding the opening or closing of the form to a boolean property. 
 Clicking on a button by the user would lead to this property being toggled.
 
-```
+```javascript
   export default class ContactComponent extends Component {
 
     render() {
