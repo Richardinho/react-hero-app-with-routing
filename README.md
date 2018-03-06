@@ -1,15 +1,16 @@
 ## Implementing Angular's Hero app using React
-There's a lot of things to building a *Single Page Application* (SPA): routing, templates, data-binding, dependency injection, animation, data synchronisation etc.
+There's a lot of things involved in building a *Single Page Application* (SPA): routing, templates, data-binding, dependency injection, animation, data synchronisation etc.
 It's no wonder that developers look for tools to help them build these.
-Two of the most popular tools that are around at the moment are Angular and React.
-Each of these takes a very different approach to providing facilities to the developer.
-Angular strives to be the *one stop shop* for everything that you need to build an SPA.
+Two of the most popular tools that are around at the moment are [ Angular ](https://angular.io/) and [ React ](https://reactjs.org/).
+Each of these takes a very different approach to how it expects developers to use it.
+Angular strives to be a *one stop shop* for everything that you need.
 You can build a very complicated application and never need to use anything other than what Angular provides you.
-React, on the other hand, takes almost the opposite approach. The core React library itself only provides the facility for rendering views and really not much besides.
+React, on the other hand, takes almost the opposite approach. 
+The core React library itself only provides the facility for rendering views, and really not much besides.
 For pretty much anything else you have to either code it yourself or else find some code that someone else has already written.
-Fortunately, there are lots of people who have done just that and consequently React enjoys a very good 'eco-system' of libraries that you can draw upon for your project.
+Fortunately, there are lots of people who have done just that, and, consequently, React enjoys a very good 'eco-system' of libraries that you can draw upon for your project.
 
-Another plus for Angular is that it has very good documentation, which includes highly useful demonstration application, the so called [Heroes app](https://angular.io/guide/router).
+Another plus for Angular is that it has very good documentation, one of the highlights of which is a highly useful demonstration application, the [Heroes app](https://angular.io/guide/router).
 I decided that it would be a good idea, for my own information and for others, to create a version of this application using React, and to see to what extent I could replicate its behaviour as closely as possible.
 I think I came fairly close to achieving this goal, but I'll let you, the reader, be the judge. 
 
@@ -31,7 +32,7 @@ I'll talk about what I did, how Angular practices differ from React's, and also,
 
 
 ### Routing
-I'll start with Routing, one of the biggest parts of an SPA.
+I'll start with routing, one of the biggest parts of an SPA.
 Here, I use the [*react-router*](https://github.com/ReactTraining/react-router) library, which is maintained by the [react training](https://reacttraining.com/) group.
 This seems to be pretty much the defacto library that you're supposed to use for routing.
 
@@ -90,7 +91,7 @@ At any one level of the tree, only one primary Route can be active at a time.
 This one route is rendered into a special DOM element called an `outlet`.
 There are things called *secondary routes* as well.
 Secondary routes are independent of primary routes and can be active at the same time.
-They too are rendered into outlets, but these are *named outlets*.
+They too are rendered into outlets, but these outlets are *named outlets*.
 Secondary routes are represented in the URL using a special syntax: 
 
   http://localhost:4200/crisis-center(popup:compose)
