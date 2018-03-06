@@ -47,13 +47,13 @@ For example, with dynamic routes, a route could become active in response to cha
 
 Here is an example of configuring a route in React:
 
-```
+```javascript
   <Route path="/crisis-center" component={ CrisisListComponent }/>
 ```
 
 Compare this with the configuration within an Angular application: 
 
-```
+```javascript
   const crisisCenterRoutes: Routes = [
     {
       path: '',
@@ -117,7 +117,7 @@ All of this is configured within the routing module:
 ```
 Secondary routes will persist within a named outlet, even with the URL changes, until it is explicitly set to null:
 
-```
+```javascript
 this.router.navigate([{ outlets: { popup: null }}]);
 ```
 
@@ -198,7 +198,7 @@ If they are not, then the app should redirect them to the login page.
 This basically comes down to some branching logic: 
 When the user is logged in, the admin components are rendered; otherwise, a `<Redirect/>` component is rendered which, as the name suggests, redirects them to the login page.
 
-```
+```javascript
   if (this.props.adminservice.isloggedin()) {
     return (
       <div>
@@ -217,7 +217,7 @@ When the user is logged in, the admin components are rendered; otherwise, a `<Re
 The redirect URL includes a query parameter that gives the address to return to.
 Here is a fragment of the component that is redirected to:
 
-```
+```javascript
 export default class Login extends Component {
 
   ... 
@@ -256,7 +256,7 @@ Redux can also be made to work with Observables, but at the cost of much greater
 
 Anyway, here's how I used Observables in my Heroes app:
 
-```
+```javascript
 
   @Inject('crisisService')
   export default class CrisisDetailComponent extends React.Component {
@@ -338,7 +338,7 @@ In addition to helping to keep code much leaner and cleaner, it also decouples o
 Angular uses constructor injection to allow a class to declare what dependencies it needs. 
 Here is an example:
 
-```
+```javascript
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -352,7 +352,7 @@ Since React does not have a dependency injection system, I had to create it myse
 It isn't possible to use constructor injection in React components because the constructor is called somewhere within React.
 Instead, what I do is use ES7 decorators for annotation dependencies on a component, and then the DI system adds the instantiated dependencies onto the `props` object.
 
-```
+```javascript
   @Inject('crisisService')
   export default class CrisisDetailComponent extends React.Component {
 
@@ -387,7 +387,7 @@ Instead, what I do is use ES7 decorators for annotation dependencies on a compon
 ```
 Here is how services are configured with the container.
 
-```
+```javascript
   const config = [
   {
     key: 'heroService', 
@@ -432,7 +432,7 @@ Animations are created in React using the `react-transition-group` library.
 I did have to do a bit or work to get it to work with route transitions.
 In the end, I had to create a custom class which wraps the Route component.
 
-```
+```javascript
 
   export default class TransitionRoute extends React.Component {
 
@@ -462,7 +462,7 @@ In the end, I had to create a custom class which wraps the Route component.
 ```
 This class acts as a drop in for Route components, as you can see here:
 
-```
+```html
   <div className="container">
     <TransitionRoute component={HeroListComponent}     path="/superheroes"  />
     <TransitionRoute component={HeroDetailComponent}   path="/hero/:id"     />
@@ -476,7 +476,7 @@ This class acts as a drop in for Route components, as you can see here:
 Angular allows modules to be lazily loaded when the route that they are associated with are activated. 
 This is set up in the Route configuration via the `loadChildren` property.
 
-```
+```javascript
 
   {
     path: 'crisis-center',
@@ -491,7 +491,7 @@ This is the library that is recommended on the [ react router website ](https://
 It does require a little boilerplate to be written. 
 This is a higher order component which wraps the actual component.
 
-```
+```javascript
 
   import React, { Component } from 'react';
   import Loadable from 'react-loadable';
