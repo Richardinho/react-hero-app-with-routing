@@ -191,7 +191,7 @@ Angular guards can also be used for preloading data and determining whether modu
 
 React router does not provide guards so you have to implement them yourself.
 The Angular Heroes app uses several different types of guard. 
-I only implmented the most simple of these, the `CanActivate` guard.
+I only implemented the most simple of these, the `CanActivate` guard.
 
 The app requires that the admin page can only be navigated to if the user is currently logged in. 
 If they are not, then the app should redirect them to the login page.
