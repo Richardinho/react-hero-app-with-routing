@@ -106,7 +106,7 @@ What this example means is that a secondary route with the path 'compose' should
 
 All of this is configured within the routing module:
 
-```
+```javascript
 
   {
     path: 'compose',
