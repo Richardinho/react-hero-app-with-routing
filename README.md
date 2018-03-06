@@ -520,6 +520,6 @@ In React, any component can be lazy loaded when it becomes active.
 Obviously, this makes lazy loading a bit more fine grained in React.
 
 ### Summary
-I hope that anyone reading this article and looking at my code will find this useful.
 My final judgement on using React to build SPAs is that it is perfectly adequate for the job providing that you are willing to do the necessary legwork to learn about other libraries.
+I hope that anyone reading this article and looking at my code will find this useful.
 
