@@ -93,7 +93,7 @@ This one route is rendered into a special DOM element called an `outlet`.
 
 There are things called *secondary routes* as well.
 Secondary routes are independent of primary routes and can be active at the same time.
-They too are rendered into outlets, but these outlets are *named outlets*.
+They too are rendered into outlets, but these outlets are called *named outlets*.
 
 Secondary routes are represented in the URL using a special syntax: 
 
