@@ -115,7 +115,7 @@ All of this is configured within the routing module:
   }
 
 ```
-Secondary routes will persist within a named outlet, even with the URL changes, until it is explicitly set to null:
+Secondary routes will persist within a named outlet, even when the URL changes, until it is explicitly set to null:
 
 ```javascript
 this.router.navigate([{ outlets: { popup: null }}]);
