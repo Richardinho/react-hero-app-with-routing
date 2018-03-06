@@ -8,14 +8,15 @@ You can build a very complicated application and never need to use anything othe
 React, on the other hand, takes almost the opposite approach. 
 The core React library itself only provides the facility for rendering views, and really not much besides.
 For pretty much anything else you have to either code it yourself or else find some code that someone else has already written.
-Fortunately, there are lots of people who have done just that, and, consequently, React enjoys a very good 'eco-system' of libraries that you can draw upon for your project.
 
-Another plus for Angular is that it has very good documentation, one of the highlights of which is a highly useful demonstration application, the [Heroes app](https://angular.io/guide/router).
-I decided that it would be a good idea, for my own information and for others, to create a version of this application using React, and to see to what extent I could replicate its behaviour as closely as possible.
+I thought it would be useful to test this idea by creating an SPA using React.
+So as to make a fair comparision with Angular, I decided to create a version of the [Heroes app](https://angular.io/guide/router), which appears in Angular's documentation.
+
+My aim was to make my React version as close to the original as possible.
 I think I came fairly close to achieving this goal, but I'll let you, the reader, be the judge. 
 
 In this article I wish to talk about how I got on.
-The article is divided into section, each of which concerns a different aspect of the app.
+The article is divided into sections, each of which concerns a different aspect of the app.
 I'll talk about what I did, how Angular practices differ from React's, and also, when appropriate, a critical comparison of the two technologies. 
 
 ### Contents 
