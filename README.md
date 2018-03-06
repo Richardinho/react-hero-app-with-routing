@@ -6,8 +6,8 @@ Each of these takes a very different approach to how it expects developers to us
 Angular strives to be a *one stop shop* for everything that you need.
 You can build a very complicated application and never need to use anything other than what Angular provides you.
 React, on the other hand, takes almost the opposite approach. 
-The core React library itself only provides the facility for rendering views, and really not much besides.
-For pretty much anything else you have to either code it yourself or else find some code that someone else has already written.
+The core React library itself only provides the facility for rendering views, and not much else besides.
+It's expected that for other parts of your application you will either write your own code or else use a third party library.
 
 I thought it would be useful to test this idea by creating an SPA using React.
 So as to make a fair comparision with Angular, I decided to create a version of the [Heroes app](https://angular.io/guide/router), which appears in Angular's documentation.
