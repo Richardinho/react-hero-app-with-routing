@@ -27,12 +27,11 @@ In each section, I will discuss how the Angular Heroes app deals with this, and 
 
 
 ### Routing
-Routing is an important part of SPAs so I will deal with this in a number of subsections.
-
+I'll start with one of the biggest parts of an SPA.
 Here, I use the [*react-router*](https://github.com/ReactTraining/react-router) library, which is maintained by the [react training](https://reacttraining.com/) group.
-The main difference between the React router and Angular's is that the former uses *dynamic routes* whilst the latter's are *static*.
 
 #### Configuration
+The main difference between the React router and Angular's is that the former uses *dynamic routes* whilst the latter's are *static*.
 Static routes are configured at start-up time in a configuration file and don't change during the lifetime of the application.
 Dynamic routes, on the other hand, are configured within the components themselves. 
 This means that they are able to respond to events that occur within the environment as the application runs. 
@@ -75,11 +74,10 @@ Compare this with the configuration within an Angular application:
   ];
 
 ```
-React's dynamic routes seem much more elegant to me.
+I find React's dynamic routes to be more elegant.
 It seems right to me that components should be able to decide for themselves what to do in response to the current location of the page.
 On the other hand, the Angular router has access to information on all the routes within the app. 
 This potentially makes it more powerful than the React router.
-There are some deficiencies in React's router - such as with resolvers - and these perhaps are one of the consequences of this.
 
 #### Secondary Routes and Named Outlets
 In Angular, the outlet is a DOM element into which is rendered the component configured for the current primary route. 
@@ -130,7 +128,7 @@ Angular has several kinds of parameter:
 
 React supports all of these apart from optional route parameters, which are a bit of an Angular specific thing.
 Angular provides parameters to components, through the ActivatedRoute class, as a stream.
-You can see how I have implemented this in the section above on observables.
+You can see how I have implemented this in the section above on Observables.
 
 #### Guards
 The purpose of a guard is to govern access to a route.
@@ -141,7 +139,7 @@ Angular guards can also be used for preloading data and determining whether modu
 
 The React router does not provide guards, but it is possible to manually implement them.
 
-The Angular version of the Hero app uses several different kinds of guard.
+The Angular Heroes app uses several different kinds of guard.
 In this app, I implemented an equivalent to the 'CanActivate' guard for the admin section.
 
 The app requires that the admin page can only be navigated to if the user is currently logged in. 
@@ -166,7 +164,7 @@ When the user is logged in, the admin components are rendered; otherwise, a `<Re
 ```
 
 The redirect URL includes a query parameter that gives the address to return to.
-Here is a fragment of the component that is redirected to.
+Here is a fragment of the component that is redirected to:
 
 ```
 export default class Login extends Component {
@@ -191,21 +189,18 @@ export default class Login extends Component {
 ```
 After the user logs in, by pressing the 'Login' button,  a message will be sent to the `adminService` to alert it that the user is now logged in; the `redirectBack()` method will be called, which first extracts the address of the previous location from the query parameter then navigates to it.
 
-Angular wins over React in supplying guard functionality out of the box. 
 ### Observables
-Observables, also known as *streams*, are data sources which emit values periodically.
-Angular uses them heavily, although they aren't an integral part of it.
-
+Although they are not an integral part of it, Angular uses *Observables*, (also known as streams), heavily.
+An Observable is a data source that periodically emits a value.
+I like to think of it as an array with an extra dimension of time.
 They have some similarities to promises and can often be used in place of them, such as for carrying out fetches for data from the server.
 One big advantage they have over promises is that they can be cancelled.
-This is super for useful when the app makes a call to the server, then the user navigates to another location whilst the request is in flight.
+This is super for useful when the app makes a call to the server and then the user navigates to another location whilst the request is in flight.
 
-Angular uses a lot of observables, albeit they aren't an integral part of it.
+React can use of Observables as well, of course, but typically React apps use Redux instead. 
+Redux can also be made to work with Observables, but at the cost of much greater complexity - something that Redux is supposed to avoid.
 
-React can use of observables as well, of course, but typically React apps use Redux instead. 
-Redux can also be made to work with observables, butat the cost of much greater complexity, and it does begin to feel a bit hacky.
-
-For this app, therefore, I decided to use observables for some of the functionality instead of Redux.
+Here's how I used Observables in my Heroes app:
 
 ```
 
@@ -257,8 +252,8 @@ In this case, the Observable `this.match` represents a stream of `match` objects
 A match object represents a match between the route's path and the current location. 
 It contains useful data about this map such as the portion of the URL that is matched.
 
-The reason why an observable makes sense in this case is because the same route can be matched by succeeding locations.
-A navigation isn't necessarily always to another page: It may be to the same page but with different parameters. 
+The reason why an Observable makes sense in this case is because the same route can be matched by succeeding locations.
+A navigation isn't necessarily always to another page; It may be to the same page but with different parameters. 
 In this case, the route component would not be unmounted, and so the same component can handle multiple matches.
 
 For each match object, a new set of data is required to be fetched from the server. 
@@ -267,10 +262,11 @@ You can see how our `crisisService.getCrisis()` method returns a promise which w
 When the request is in flight, the user could navigate away from the route prompting a new request. 
 If we were not careful, an old request could come back and get mixed up with a newer one. 
 It is thus important that whenever we make a new request the old request is cancelled. 
-The `switchMap` method does this. In my opinion it is perhaps the 'killer feature' of observables.
-What it does is map a stream of values to a stream of observables and returns a new stream which emits the values emitted by these inner streams.The critical part of it is that when there is a new value on the input stream (our stream of match objects) all the inner streams for which we are still waiting for output on are cancelled. 
+The `switchMap` method does this. 
+In my opinion it is perhaps the 'killer feature' of Observables.
+What it does is map a stream of values to a stream of Observables and returns a new stream which emits the values emitted by these inner streams.The critical part of it is that when there is a new value on the input stream (our stream of match objects) all the inner streams for which we are still waiting for output on are cancelled. 
 
-We also want to make sure that the observable is unsubscribed from when we unmount the component. 
+We also want to make sure that the Observable is unsubscribed from when we unmount the component. 
 You can see that we do this within the `componentWillUnmount` lifecycle method.
 
 Streams fit very well with the paradigms involved in web development and they work just as well with React as they do in Angular.
@@ -300,10 +296,10 @@ Here is an example:
 Nothing else is required for the developer to write. 
 When an instance of the class is created it will have those three properties on it.
 
-I decided as an experiment to create a DI system for React.
-I decided that I would use ES7 decorators for the annotations that declare dependencies.
+Since React does not have a dependency injection system, I had to create it myself.
+It isn't possible to use constructor injection in React components because the constructor is called somewhere within React.
+Instead, what I do is use ES7 decorators for annotation dependencies on a component, and then the DI system adds the instantiated dependencies onto the `props` object.
 
-This class uses the crisisService service (typically, dependencies are called services).
 ```
   @Inject('crisisService')
   export default class CrisisDetailComponent extends React.Component {
@@ -337,8 +333,8 @@ This class uses the crisisService service (typically, dependencies are called se
     }
   }
 ```
-The decorator takes as its arguments a series of 'keys' which refer to the services that have been registered with the DI system (or 'container').
 Here is how services are configured with the container.
+
 ```
   const config = [
   {
@@ -363,16 +359,26 @@ Here is how services are configured with the container.
     )
   }
 ```
-Note that our Injector is actually also a component! 
+Note the `Injector` component. 
+An Injector is the object at the heart of a DI system. 
+It is on the Injector that we register all the providers for our system.
+The provider is simply a class that the system will instantiate when an object requests it.
 It is passed an array of configuration objects. 
 Each object has both a *key* and a *provider*. 
-The provider is simply a class that the system will instantiate when an object requests it.
 
+Angular's DI system is of course a lot more complicated, but this does the job. 
+You can see the code for it [here](https://github.com/Richardinho/di-for-react);
+
+I do find the lack of DI in React a significant failing.
+I think React applications do suffer from tightly coupled objects as a result.
 
 ### Animations
+The Heroes app features very nice smooth transition effects between routes.
+I was very keen to be able to replicate these in my version.
+
 Animations are created in React using the `react-transition-group` library.
-The aim in this app is to have a nice transition effect whenever a route changes.
-I achieve this using a custom class whose purpose is to wrap our route's component.
+I did have to do a bit or work to get it to work with route transitions.
+In the end, I had to create a custom class which wraps the Route component.
 
 ```
 
@@ -402,9 +408,7 @@ I achieve this using a custom class whose purpose is to wrap our route's compone
     }
   }
 ```
-
-Although not technically a subclass of the `Route` component, it is useful, I believe, to think of it as such; 
-It is used with exactly the same props and can be used as a drop in replacement for that component.
+This class acts as a drop in for Route components, as you can see here:
 
 ```
   <div className="container">
@@ -415,16 +419,10 @@ It is used with exactly the same props and can be used as a drop in replacement 
     <TransitionRoute component={LoginComponent}        path="/login"        />
   </div>
 ```
-Some of this code is undeniably a little opaque - firstChild, for example - and a bit hacky.
-Of course this is partly down to my own shortcomings, but, nonetheless, it does point to the issues that can be thrown up by not having, as Angular does, these things done for you.
 
 ### Lazy Loading
 Angular allows modules to be lazily loaded when the route that they are associated with are activated. 
-React does not.
-
-
-Angular's lazy loading requires the configuration property `loadChildren` to be added to the route's configuration.
-When the relevant path is visited in the browser, Angular will make a request to the server for the correct code.
+This is set up in the Route configuration via the `loadChildren` property.
 
 ```
 
@@ -436,7 +434,7 @@ When the relevant path is visited in the browser, Angular will make a request to
   }
 
 ```
-In order to do something similar in React, I have used the [react-loadable](https://github.com/jamiebuilds/react-loadable) library. 
+In order to do lazy load in React, I have used the [react-loadable](https://github.com/jamiebuilds/react-loadable) library. 
 This is the library that is recommended on the [ react router website ](https://reacttraining.com/react-router/web/guides/code-splitting). 
 It does require a little boilerplate to be written. 
 This is a higher order component which wraps the actual component.
@@ -464,7 +462,12 @@ This is a higher order component which wraps the actual component.
   }
 
 ```
+The behavior is a little different from Angular.
+In Angular, the unit of lazy loading is a Route. 
+In React, any component can be lazy loaded when it becomes active.
+Obviously, this makes lazy loading a bit more fine grained in React.
 
 ### Summary
 Whilst I still prefer Angular's all encompassing approach, it is perfectly possible to use React, along with its eco-sytem of third party libraries, to build the same things that you can build in Angular.
+
 The benefits and disadvantages of this are the same as those of using third party libraries in general. 
