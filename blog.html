@@ -1,87 +1,83 @@
-<h3>Implementing Angular's Hero app using React</h3>
+<h3>implementing angular's hero app using react</h3>
 <p>
-  There's a lot of things involved in building a *Single Page Application* (SPA): routing, templates, data-binding, dependency injection, animation, data synchronisation etc.
-  It's no wonder that developers look for tools to help them build these.
-  Two of the most popular tools that are around at the moment are [ Angular ](https://angular.io/) and [ React ](https://reactjs.org/).
-  Each of these takes a very different approach to how it expects developers to use it.
-  Angular strives to be a *one stop shop* for everything that you need.
-  You can build a very complicated application and never need to use anything other than what Angular provides you.
-  React, on the other hand, takes almost the opposite approach. 
-  The core React library itself only provides the facility for rendering views, and not much else besides.
-  It's expected that for other parts of your application you will either write your own code or else use a third party library.
+there's a lot of things involved in building a <i>single page application</i> (spa): routing, templates, data-binding, dependency injection, animation, data synchronisation etc.
+  it's no wonder that developers look for tools to help them build these.
+  two of the most popular tools that are around at the moment are 
+  <a href="https://angular.io/">angular</a> 
+  and <a href="https://reactjs.org/">react</a>.
+  each of these takes a very different approach to how it expects developers to use it.
+  angular strives to be a <i>one stop shop</i> for everything that you need.
+  you can build a very complicated application and never need to use anything other than what angular provides you.
+  react, on the other hand, takes almost the opposite approach. 
+  the core react library itself only provides the facility for rendering views, and not much else besides.
+  it's expected that for other parts of your application you will either write your own code or else use a third party library.
 </p>
 <p>
-  I thought it would be useful to test this idea by creating an SPA using React.
-  So as to make a fair comparision with Angular, I decided to create a version of Angular's showcase [Heroes app](https://angular.io/guide/router) from their documentation.
-</p>
-
-<p>
-My aim was to make my React version as close to the original as possible.
-I think I came fairly close to achieving this goal, but I'll let you, the reader, be the judge. 
+  i thought it would be useful to test this idea by creating an spa using react.
+  so as to make a fair comparision with angular, i decided to create a version of angular's showcase [heroes app](https://angular.io/guide/router) from their documentation.
 </p>
 
 <p>
-In this article I wish to talk about how I got on.
-The article is divided into sections, each of which concerns a different aspect of the app.
-I'll talk about what I did, how Angular practices differ from React's, and also, when appropriate, a critical comparison of the two technologies. 
+my aim was to make my react version as close to the original as possible.
+i think i came fairly close to achieving this goal, but i'll let you, the reader, be the judge. 
 </p>
-<p>You can find the code here</p>
 
-<div class="hero-link git-hub">
-    <a href="https://github.com/Richardinho/react-hero-app-with-routing" target="_blank">
-        <svg width="40" height="40" viewBox="0 0 32 32"><use xlink:href="#github-path" /></svg><span>Github repository</span>
-    </a>
-</div>
+<p>
+in this article i wish to talk about how i got on.
+the article is divided into sections, each of which concerns a different aspect of the app.
+i'll talk about what i did, how angular practices differ from react's, and also, when appropriate, a critical comparison of the two technologies. 
+</p>
 
-<h4>Contents</h4> 
-<ul> [Routing](#routing)
+<h4>contents</h4> 
+<ul> <a href="#routing">routing</a>
   <li>
     <ul>
       <li>
-        * [Configuration](#configuration)
+        <a href="#configuration">configuration</a>
       </li>
       <li>
-        * [Secondary Routes and Named Outlets](#secondary-routes-and-named-outlets)
+        <a href="#secondary-routes-and-named-outlets">secondary routes and named outlets</a>
       </li>
       <li>
-        * [Guards](#guards)
+        <a href="#guards">guards</a>
       </li>
       <li>
-        * [Parameters](#parameters)
+        <a href="#parameters">parameters</a>
       </li>
     </ul>
   </li>
   <li>
-    * [Observables](#observables)
+    <a href="#observables">observables</a>
   </li>
   <li>
-    * [Dependency Injection](#dependency-injection)
+    <a href="#dependency-injection">dependency injection</a>
   </li>
   <li>
-    * [Animations](#animations)
+    <a href="#animations">animations</a>
   </li>
   <li>
-    * [Lazy loading](#lazy-loading)
+    <a href="#lazy-loading">lazy loading</a>
   </li>
   <li>
-    * [Summary](#summary)
+    <a href="#summary">summary</a>
   </li>
 </ul>
 
-<h4>
+<h4 id="routing">
   Routing
 </h4>
 <p>
 I'll start with routing, one of the biggest parts of an SPA.
-Here, I use the [*react-router*](https://github.com/ReactTraining/react-router) library, which is maintained by the [react training](https://reacttraining.com/) group.
+Here, I use the <a href="https://github.com/ReactTraining/react-router">react-router</a> library, which is maintained by the 
+<a href="https://reacttraining.com/">React Training</a> organization.
 This seems to be pretty much the defacto library that you're supposed to use for routing.
 </p>
 
-<h5>
+<h5 id="configuration">
   Configuration
 </h5>
 <p>
-The main difference between the React router and Angular's is that the former uses *dynamic routes* whilst the latter's are *static*.
+The main difference between the React router and Angular's is that the former uses <i>dynamic routes</i> whilst the latter's are <i>static</i>.
 Static routes are configured at start-up time in a configuration file and don't change during the lifetime of the application.
 Dynamic routes, on the other hand, are configured within the components themselves. 
 This means that they are able to respond to events that occur within the environment as the application runs. 
@@ -136,7 +132,7 @@ Compare this with the configuration within an Angular application:
 I find React's dynamic routes to be more elegant, and it seems right to me that components should be able to decide for themselves what to do in response to the current location.
 </p>
 
-<h5>
+<h5 id="secondary-routes-and-named-outlets">
 Secondary Routes and Named Outlets
 </h5>
 <p>
@@ -148,9 +144,9 @@ This one route is rendered into a special DOM element called an `outlet`.
 </p>
 
 <p>
-There are things called *secondary routes* as well.
+There are things called <i>secondary routes</i> as well.
 Secondary routes are independent of primary routes and can be active at the same time.
-They too are rendered into outlets, but these outlets are called *named outlets*.
+They too are rendered into outlets, but these outlets are called <i>named outlets</i>.
 </p>
 
 <p>
@@ -248,27 +244,37 @@ Clicking on a button by the user would lead to this property being toggled.
   This is definitely a case when React's router is superior to Angular's.
 </p>
 
-<h4>
+<h5 id="parameters">
   Parameters
-</h4>
+</h5>
 
 <p>
   Parameters are how data is passed in the URL to activated components.
 </p>
 
 Angular has several kinds of parameter:
-* route parameters - these are part of the path. e.g. `/foo/:id`
-* optional route parameters - these use matrix notation and allow optional, complex, or multi-variant values.
-* query parameters - key value pairs appearing after the `?` symbol.
-* fragment - arbitrary string after the `#` symbol.
+<ul>
+  <li>
+    route parameters - these are part of the path. e.g. `/foo/:id`
+  </li>
+  <li>
+    optional route parameters - these use matrix notation and allow optional, complex, or multi-variant values.
+  </li>
+  <li>
+    query parameters - key value pairs appearing after the `?` symbol.
+  </li>
+  <li>
+    fragment - arbitrary string after the `#` symbol.
+  </li>
+</ul>
 
 <p>
   React supports all of these apart from optional route parameters, which are a bit of an Angular specific thing.
   Angular provides parameters to components, through the ActivatedRoute class, as a stream.
-  You can see how I have implemented this in the section below on [ Observables ](#observables).
+  You can see how I have implemented this in the section below on <a href="#observables">Observables</a>.
 </p>
 
-<h4>
+<h4 id="guards">
   Guards
 </h4>
 <p>
@@ -347,11 +353,11 @@ Other guards in the Heroes app are guards for governing access to child routes, 
 For this project, I did not implement these.
 </p>
 
-<h4>
+<h4 id="observables">
   Observables
 </h4>
 <p>
-Although they are not an integral part of it, Angular uses *Observables*, (also known as streams), heavily.
+Although they are not an integral part of it, Angular uses <i>Observables</i>, (also known as streams), heavily.
 An Observable is a data source that periodically emits a value.
 I like to think of it as an array with an extra dimension of time.
 They have some similarities to promises and can often be used in place of them, such as for carrying out fetches for data from the server.
@@ -447,7 +453,7 @@ You can see that we do this within the `componentWillUnmount` lifecycle method.
 </p>
 
 
-<h4>
+<h4 id="dependency-injection">
   Dependency Injection
 </h4>
 <p>
@@ -565,7 +571,7 @@ Each object has both a *key* and a *provider*.
 
 <p>
 Angular's DI system is of course a lot more complicated, but this does the job. 
-You can see the code for it [here](https://github.com/Richardinho/di-for-react).
+You can see the code for it <a href="https://github.com/Richardinho/di-for-react">here</a>.
 </p>
 
 <p>
@@ -573,7 +579,7 @@ I do find the lack of DI in React a significant failing.
 I think React applications do suffer from tightly coupled objects as a result.
 </p>
 
-<h4>
+<h4 id="animations">
   Animations
 </h4>
 <p>
@@ -631,7 +637,7 @@ This class acts as a drop in for Route components, as you can see here:
   </div>
 </code>
 </pre>
-<h4>
+<h4 id="lazy-loading">
   Lazy Loading
 </h4>
 <p>
@@ -652,8 +658,10 @@ This is set up in the route configuration via the `loadChildren` property.
 </code>
 </pre>
 <p>
-In order to do lazy load in React, I have used the [react-loadable](https://github.com/jamiebuilds/react-loadable) library. 
-This is the library that is recommended on the [ react router website ](https://reacttraining.com/react-router/web/guides/code-splitting). 
+In order to do lazy load in React, I have used the
+<a href="https://github.com/jamiebuilds/react-loadable">react-loadable</a> library. 
+This is the library that is recommended on the 
+<a href="https://reacttraining.com/react-router/web/guides/code-splitting">React Router website</a>. 
 It does require a little boilerplate to be written. 
 This is a higher order component which wraps the actual component.
 </p>
@@ -689,7 +697,7 @@ In React, any component can be lazy loaded when it becomes active.
 Obviously, this makes lazy loading a bit more fine grained in React.
 </p>
 
-<h4>
+<h4 id="summary">
   Summary
 </h4>
 <p>
@@ -697,3 +705,10 @@ My final judgement on using React to build SPAs is that it is perfectly adequate
 I hope that anyone reading this article and looking at my code will find this useful.
 </p>
 
+<p>You can find the code here</p>
+
+<div class="hero-link git-hub">
+    <a href="https://github.com/Richardinho/react-hero-app-with-routing" target="_blank">
+        <svg width="40" height="40" viewBox="0 0 32 32"><use xlink:href="#github-path" /></svg><span>Github repository</span>
+    </a>
+</div>
