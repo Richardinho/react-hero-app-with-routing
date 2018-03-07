@@ -1,19 +1,18 @@
 <h3>Implementing Angular's Hero app using React</h3>
 <p>
-There's a lot of things involved in building a *Single Page Application* (SPA): routing, templates, data-binding, dependency injection, animation, data synchronisation etc.
-It's no wonder that developers look for tools to help them build these.
-Two of the most popular tools that are around at the moment are [ Angular ](https://angular.io/) and [ React ](https://reactjs.org/).
-Each of these takes a very different approach to how it expects developers to use it.
-Angular strives to be a *one stop shop* for everything that you need.
-You can build a very complicated application and never need to use anything other than what Angular provides you.
-React, on the other hand, takes almost the opposite approach. 
-The core React library itself only provides the facility for rendering views, and not much else besides.
-It's expected that for other parts of your application you will either write your own code or else use a third party library.
+  There's a lot of things involved in building a *Single Page Application* (SPA): routing, templates, data-binding, dependency injection, animation, data synchronisation etc.
+  It's no wonder that developers look for tools to help them build these.
+  Two of the most popular tools that are around at the moment are [ Angular ](https://angular.io/) and [ React ](https://reactjs.org/).
+  Each of these takes a very different approach to how it expects developers to use it.
+  Angular strives to be a *one stop shop* for everything that you need.
+  You can build a very complicated application and never need to use anything other than what Angular provides you.
+  React, on the other hand, takes almost the opposite approach. 
+  The core React library itself only provides the facility for rendering views, and not much else besides.
+  It's expected that for other parts of your application you will either write your own code or else use a third party library.
 </p>
-
 <p>
-I thought it would be useful to test this idea by creating an SPA using React.
-So as to make a fair comparision with Angular, I decided to create a version of Angular's showcase [Heroes app](https://angular.io/guide/router) from their documentation.
+  I thought it would be useful to test this idea by creating an SPA using React.
+  So as to make a fair comparision with Angular, I decided to create a version of Angular's showcase [Heroes app](https://angular.io/guide/router) from their documentation.
 </p>
 
 <p>
@@ -181,7 +180,7 @@ All of this is configured within the routing module:
       outlet: 'popup'
     }
   </code>
-<pre>
+</pre>
 <p>
   Secondary routes will persist within a named outlet, even when the URL changes, until it is explicitly set to null:
 </p>
@@ -230,7 +229,7 @@ Clicking on a button by the user would lead to this property being toggled.
     }
   }
   </code>
-<pre>
+</pre>
 <p>
   Although this may seem crude, I actually think it gives a better user experience: I don't believe that the displaying of the form is something that should be persisted within the browser history.
   The rule of thumb I apply here is to ask myself: would I want to bookmark the page in this state? 
