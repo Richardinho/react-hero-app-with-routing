@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-export default class CrisisCenterHomeComponent extends React.Component {
+export default class CrisisCenterHomeComponent extends Component {
 
   render () {
     return (

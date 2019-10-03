@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Rx from 'rxjs/Rx';
 import { Link, Route } from 'react-router-dom';
 import { Inject } from '../injector';
@@ -7,7 +7,7 @@ import CrisisDetailComponent from './crisis-detail-component';
 import CrisisCenterHomeComponent from './crisis-center-home-component';
 
 @Inject(['crisisService'])
-export default class CrisisListComponent extends React.Component {
+export default class CrisisListComponent extends Component {
 
   constructor() {
     super();  

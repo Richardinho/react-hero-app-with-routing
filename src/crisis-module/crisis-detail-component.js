@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import Rx from 'rxjs/Rx';
 import { Inject } from '../injector';
 
 @Inject(['crisisService'])
-export default class CrisisDetailComponent extends React.Component {
+export default class CrisisDetailComponent extends Component {
 
   constructor(props) {
     super(props);
@@ -51,7 +51,6 @@ export default class CrisisDetailComponent extends React.Component {
 
   navigateToCrisisList() {
     this.props.history.push('/crisis-center');      
-  
   }
 
   handleNameChange(event) {
@@ -85,12 +84,9 @@ export default class CrisisDetailComponent extends React.Component {
     );
 
     return (
-    
       <div>
         { parseInt(this.state.id) > 0 ? detail: placeholder }
       </div>
-    
     );
-  
   }
 }
