@@ -36,7 +36,7 @@ export default class Login extends Component {
 
     return (
       <div>
-        <h2>LOGIN</h2>
+        <h2>{isLoggedIn ? 'LOGOUT' : 'LOGIN' }</h2>
         <p>message</p>
         <p>
           {isLoggedIn ? loggedIn : loggedOut}  
