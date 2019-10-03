@@ -9,8 +9,7 @@ import HeroDetailComponent from './hero-module/hero-detail-component';
 import ContactComponent from './contact-component';
 import AdminComponent from './admin-module/admin-component';
 import LoginComponent from './admin-module/login-component';
-import { Inject } from 'test1';
-import { TransitionGroup, CSSTransition, Transition } from '../react-transition-group/src';
+import { TransitionGroup, CSSTransition, Transition } from 'react-transition-group';
 import TransitionRoute from './transition-route';
 
 const firstChild = props => {

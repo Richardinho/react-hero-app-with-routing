@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import queryString from 'querystring';
-import { Inject } from 'test1';
+import { Inject } from '../injector';
 
-@Inject('adminService')
+@Inject(['adminService'])
 export default class Login extends Component {
 
   constructor() {
     super();
+
     this.logIn = this.logIn.bind(this);
     this.logOut = this.logOut.bind(this);
   }

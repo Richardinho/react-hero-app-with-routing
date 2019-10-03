@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link, Route } from 'react-router-dom';
-import { Inject } from 'test1';
+import { Inject } from '../injector';
 
-@Inject('heroService')
+@Inject(['heroService'])
 export default class HeroListComponent extends Component {
 
   constructor() {

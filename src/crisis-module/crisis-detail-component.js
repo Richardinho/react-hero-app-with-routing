@@ -1,9 +1,9 @@
 import React from 'react';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import Rx from 'rxjs/Rx';
-import { Inject } from 'test1';
+import { Inject } from '../injector';
 
-@Inject('crisisService')
+@Inject(['crisisService'])
 export default class CrisisDetailComponent extends React.Component {
 
   constructor(props) {

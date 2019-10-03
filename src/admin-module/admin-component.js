@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link, Route , Redirect } from 'react-router-dom';
 import { DashboardComponent } from './dashboard-component';
-import { Inject } from 'test1';
+import { Inject } from '../injector';
 
-@Inject('adminService')
+@Inject(['adminService'])
 export default class Admin extends Component {
 
   render() {
@@ -36,7 +36,7 @@ export default class Admin extends Component {
         </div>
       )    
     } else {
-      return (<Redirect to="/login?returnto=/admin"/>);
+     return (<Redirect to="/login?returnto=/admin"/>);
     }
   }
 }

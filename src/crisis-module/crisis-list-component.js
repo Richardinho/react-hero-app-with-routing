@@ -1,12 +1,12 @@
 import React from 'react';
 import Rx from 'rxjs/Rx';
 import { Link, Route } from 'react-router-dom';
-import { Inject } from 'test1';
-import { TransitionGroup, CSSTransition, Transition} from '../../react-transition-group/src';
+import { Inject } from '../injector';
+import { TransitionGroup, CSSTransition, Transition} from 'react-transition-group';
 import CrisisDetailComponent from './crisis-detail-component';
 import CrisisCenterHomeComponent from './crisis-center-home-component';
 
-@Inject('crisisService')
+@Inject(['crisisService'])
 export default class CrisisListComponent extends React.Component {
 
   constructor() {

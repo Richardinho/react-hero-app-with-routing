@@ -5,7 +5,7 @@ import App from './app-component'
 import HeroService from './hero-module/hero-service';
 import AdminService from './admin-module/admin-service';
 import CrisisService from './crisis-module/crisis-service';
-import Injector, { Inject } from 'test1';
+import Injector from './injector';
 
 const config = [
 {

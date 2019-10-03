@@ -1,5 +1,5 @@
 import React from 'react';
-import { TransitionGroup, CSSTransition } from '../react-transition-group/src';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { Route } from 'react-router-dom';
 
 const firstChild = props => {
