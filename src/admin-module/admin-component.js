@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link, Route , Redirect } from 'react-router-dom';
-import { DashboardComponent } from './dashboard-component';
 import { Inject } from '../injector';
 
 @Inject(['adminService'])
@@ -29,6 +28,7 @@ export default class Admin extends Component {
               <h2>dashboard</h2> 
             </div>
           )}/>
+
           <Route path="/admin/manage-heroes" render={() => (
             <div>
               <h2>manage heroes</h2> 
