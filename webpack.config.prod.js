@@ -5,8 +5,9 @@ const path = require('path');
 module.exports = {
   entry: ['./src/index.js'],
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, "docs"),
+    publicPath: 'https://richardinho.github.io/react-hero-app-with-routing/'
   },
   module: {
     rules: [
