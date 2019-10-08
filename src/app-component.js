@@ -42,7 +42,7 @@ export default class App extends Component {
   render () {
     return (
       <div>
-        <BrowserRouter>
+        <BrowserRouter basename="/react-hero-app-with-routing">
           <div>
             <h1 className="title">React Router</h1>
             <nav>
